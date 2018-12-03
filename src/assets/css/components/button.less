@@ -1,0 +1,74 @@
+@import "../variables";
+
+.btn {
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    background: @blue-normal;
+    a {
+        display: block;
+        color: #fff !important;
+    }
+    &:hover{
+        background: @blue-hover;
+    }
+    &:active{
+        background: @blue-click;
+    }
+    &.disabled{
+        background: #ccc;
+        a {
+            cursor: progress;
+        }
+    }
+    &.gray {
+        background: #999;
+    }
+    cursor: pointer;
+    a {
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+    }
+}
+
+.btn-transparent {
+    border: 1px solid #fff;
+    color: #fff;
+    background: transparent;
+    &:hover{
+        background: rgba(255,255,255,0.2);
+    }
+    &:active {
+        background: rgba(0,0,0,0.1);
+    }
+}
+
+.btn-green {
+    background: @green-normal;
+    &:hover{
+        background: @green-hover;
+    }
+    &:active{
+        background: @green-click;
+    }
+}
+
+.btn-gray {
+    background: @gray-normal;
+    &:hover{
+        background: @gray-hover;
+    }
+    &:active{
+        background: @gray-click;
+    }
+}
+.btn-sm {
+    height: 20px;
+    width: 80px;
+    font-size: 12px;
+    line-height: 20px;
+}

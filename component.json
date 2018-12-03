@@ -1,0 +1,10 @@
+{
+  "dependencies": [
+    "github:fis-components/vue-router@0.7.13",
+    "github:fis-components/jquery@2.2.3",
+    "github:fis-components/vue-async-data@1.0.2",
+    "github:fis-components/vue@1.0.26",
+    "github:fis-components/lodash@4.6.1",
+    "github:fis-components/echarts@3.2.2"
+  ]
+}

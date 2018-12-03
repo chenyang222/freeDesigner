@@ -1,0 +1,1 @@
+BUILD_SUBMITTER -x -m baidu/bsp/fis-ent -c "cd baidu/bsp/fis-ent && mkdir output && cp BCLOUD ./output/" -u ./

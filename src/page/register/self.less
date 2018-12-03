@@ -1,0 +1,73 @@
+@import '/src/assets/css/base';
+@import '/src/assets/css/components/button';
+
+/* 过度区域 */
+
+.transition {
+  background: #a9a9a9;
+  height: 250px;
+  font-size: 14px;
+  color: #fff;
+  .container {
+    padding-top: 8px;
+    width: 1160px;
+  }
+  .in-a-word {
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.5rem;
+  }
+  .join-them {
+    height: 90px;
+    width: 356px;
+    font-size: 9rem;
+    font-weight: 700;
+    background: url(./join-them.png);
+  }
+}
+/* 输入框和button 统一设置样式 */
+.btn {
+  border-radius: 5px !important;
+}
+input {
+  background: #eee;
+  text-indent: 24px;
+}
+.register-container {
+  background: #f4f4f4;
+  .container {
+    padding: 60px;
+    position: relative;
+    background: #fff;
+    top: -90px;
+    width: 1160px;
+    border-radius: 20px;
+    height: 600px;
+    .title-wrap {
+      border-bottom: 1px solid #cccccc;
+      padding-bottom: 15px;
+      overflow: hidden;
+      .title {
+        font-size: 1.6rem;
+        color: #414141;
+        text-indent: -8px;
+      }
+      .sub-title {
+        font-size: 1.4rem;
+        color: #8c8c8c;
+        line-height: 1.5;
+      }
+    }
+    .mobile,
+    .verify-code {
+      input {
+        width: 800px;
+      }
+    }
+    .password {
+      input {
+        width: 948px;
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+@import './normalize';
+@import './utils';
+
+.container-fluid {
+  min-width: @w-container;
+  margin: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.container {
+  width: @w-container;
+  margin: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* chrome min font-size 12px, for easy calc */
+html {
+  font-size: 10px;
+  display: block;
+  box-sizing: border-box;
+}
+// inherit style config, easy to config other dom
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+.header,
+.footer,
+.menu,
+.main,
+.navbar-container {
+  min-width: @w-container;
+}
+body, input, select, textarea{
+  // font-family: "Microsoft YaHei Light", @yahei;
+  font-family:  @yahei;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: @c-text;
+  font-size: 1.4rem;
+  &:active {
+    color: @blue-click;
+  }
+  &:hover {
+    color: @blue-hover;
+  }
+  &.active {
+    color: @blue-hover;
+  }
+}
+
+.cyan {
+  color: @cyan !important;
+}
+
+@font-face {
+  font-family: "Microsoft YaHei Light";
+  /* src: url(/src/assets/fonts/MicrosoftYaHeiUILight.woff) format('truetype');  */
+}
+/* global span a inline-block */
+span {
+  display: inline-block;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  li {
+    // padding: 0 !important;
+    list-style: none;
+  }
+}
+

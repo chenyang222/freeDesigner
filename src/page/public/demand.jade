@@ -1,0 +1,11 @@
+link(rel="import", href="/src/_template/header.tpl?__inline")
+link(rel="stylesheet" href="../order/self.less")
+<!-- i love jade -->
+div.main
+  app
+<!-- html footer -->
+script(text="javascript").
+  var App = require('./demand');
+  require('/src/page/page')(App);
+link(rel="import", href="/src/_template/footer.tpl?__inline")
+

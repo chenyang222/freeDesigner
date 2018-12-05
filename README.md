@@ -6,6 +6,9 @@
    Linux 网站直接下载对应的tar.gz包，自己编译
 2. npm i -g fis3
 3. fis3 install
+4. npm install
+5. fis3 release -d ./output/ -wL 
+
 
 ### develop deps fis plugins
 fis3-parser-vue-component

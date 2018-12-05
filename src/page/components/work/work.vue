@@ -1,9 +1,5 @@
-/**
-  @desc: user/space,  upload personal work
-*/
-
 <template lang="jade">
-.cover
+.cover(__vuec__)
   a(href="{{works[index].large_image}}", target="blank")
     img(:src="works[index].large_image")
   .slider.mt-20
@@ -79,8 +75,8 @@ export default {
     }
 };
 </script>
-<style scoped lang="less">
-.cover {
+<style lang="less">
+.cover[__vuec__] {
   width: 440px;
   height: 420px;
   background: #fff;

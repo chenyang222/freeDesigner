@@ -1,5 +1,5 @@
 <template lang="jade">
-header.header
+header.header(__vuec__)
   div.header-account
     div.container-fluid
       div.logo.fl
@@ -108,9 +108,9 @@ export default {
     }
 };
 </script>
-<style scoped lang="less">
+<style lang="less">
 @import (reference) '/src/assets/css/base.less';
-.header {
+.header[__vuec__] {
   color: #ccc;
   font-size: 14px;
   position: relative;

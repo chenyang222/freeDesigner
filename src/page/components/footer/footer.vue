@@ -1,7 +1,7 @@
-<style scoped lang="less">
+<style lang="less">
 @import (reference) '/src/assets/css/base.less';
 
-.footer {
+.footer[__vuec__] {
     height: @h-footer;
     background-color: @bg-footer;
     font-size: 12px; // 1.2rem
@@ -63,7 +63,7 @@
 
 </style>
 <template lang="jade">
-footer.footer
+footer.footer(__vuec__)
   div.container
   div.bottom
     span @2016 Designer

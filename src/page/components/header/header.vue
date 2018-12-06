@@ -126,7 +126,7 @@ export default {
       padding: 0 5px;
       a {
           cursor: pointer;
-          color: #fff;
+          color: #919191;
           opacity: .8;
           &:hover {
               color: #fff;
@@ -152,7 +152,7 @@ export default {
     border-radius: 10px;
   }
   .header-account {
-    background: rgba(47,47,47,0.98);
+    background-color: #fff;
     height: @h-header;
     line-height: @h-header;
     .account-container {

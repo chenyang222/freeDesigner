@@ -39,12 +39,12 @@ header.header(__vuec__)
               a(href="javascript:;") 退出
         div.fl.ml-20
           input.search(placeholder="Search users")
-  div.transition(v-if="isHome")
-    .slogon-wrap(v-if="isLogout")
-      .slogon
-        span.question 自由设计师交易合作平台，根据专长自由合作分包。
-        span.btn.ml-20
-          a(href="{{REGISTER}}") 加入我们
+  //- div.transition(v-if="isHome")
+  //-   .slogon-wrap(v-if="isLogout")
+  //-     .slogon
+  //-       span.question 自由设计师交易合作平台，根据专长自由合作分包。
+  //-       span.btn.ml-20
+  //-         a(href="{{REGISTER}}") 加入我们
 </template>
 <script>
 import api from '/src/assets/js/api';
@@ -67,9 +67,9 @@ export default {
         });
     },
     computed: {
-        isHome () {
-            return window.location.pathname === '/';
-        },
+        // isHome () {
+        //     return window.location.pathname === '/';
+        // },
         isLogout () {
             return this.data && JSON.stringify(this.data) === '{}';
         }

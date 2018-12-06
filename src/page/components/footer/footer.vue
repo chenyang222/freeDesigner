@@ -31,7 +31,6 @@
                 img {
                     width: 122px;
                     height: 122px;
-                    background-color: red;
                 }
                 p {
                     text-align: center;
@@ -52,6 +51,8 @@
                     background-color: #3e94fb;
                     border-radius: 20px;
                     padding: 0 10px;
+                    margin-left: 10px;
+                    vertical-align: middle;
                 }
             }
         }
@@ -70,18 +71,18 @@ footer.footer(__vuec__)
   div.container
     .l
         .item
-            a(href='') 首页
-            a(href='') 我是雇主
-            a(href='') 积分充值
-            a(href='') 关于平台
+            a(href='/') 首页
+            a(href='{{ORDER_PUB_MANAGEMENT}}') 我是雇主
+            a(href='{{ORDER_INTEGRAL}}') 积分充值
+            a(href='/about.html') 关于平台
         .item
-            a(href='') 需求池
-            a(href='') 我是工作者
-            a(href='') 积分管理
-            a(href='') 个人中心
+            a(href='{{ORDER_DEMAND}}') 需求池
+            a(href='{{ORDER_APPLY_MANAGEMENT}}') 我是工作者
+            a(href='{{ORDER_INTEGRAL}}') 积分管理
+            a(href='{{USER_PROFILE}}') 个人中心
     .r
         .qrcode
-            img
+            img(src="/src/page/components/footer/weixin.png")
             p 关注我们
         .info
             p 自由盟邦网服务热线
@@ -94,3 +95,13 @@ footer.footer(__vuec__)
     p Copyright © 2016 - 2020 free-designer.cn All rights reserved.自由工程协作平台©版权所有.
     p 京ICP备17002726号-1
 </template>
+
+<script>
+import constant from '/src/assets/js/constant';
+import _ from 'lodash';
+export default {
+    data() {
+        return _.merge({}, constant.PATH);
+    }
+}
+</script>

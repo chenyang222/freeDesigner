@@ -1,6 +1,6 @@
 <template>
   <div class="home__demand" __vuec__>
-      您现在就可以<div class="home__demand__btn">发布需求</div>
+      您现在就可以<a :href="ORDER_PUB" class="home__demand__btn">发布需求</a>
   </div>
 </template>
 <style lang="less">
@@ -23,6 +23,17 @@
     margin-left: 20px;
     font-weight: bold;
     background-color: #4495f7;
+    cursor: pointer;
   }
 }
 </style>
+<script>
+import constant from '/src/assets/js/constant';
+export default {
+  data() {
+    return{
+      ORDER_PUB: constant.PATH.ORDER_PUB
+    }
+  }
+}
+</script>

@@ -1,7 +1,7 @@
 <template>
   <div class="home__ngineer" __vuec__>
       <div class="home__ngineer__title">
-          卓越的工程司们&nbsp;&nbsp;Excellent engineers
+          卓越的工程师们&nbsp;&nbsp;Excellent engineers
       </div>
       <div class="home__ngineer__content">
           <div class="item">

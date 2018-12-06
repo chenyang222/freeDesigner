@@ -3,61 +3,64 @@
 
 .footer[__vuec__] {
     height: @h-footer;
-    background-color: @bg-footer;
+    background-color: #bababa;
     font-size: 12px; // 1.2rem
     color: #fff;
-    a {
-        color: #fff;
-    }
+
     .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-bottom: 1px solid #fff;
         height: 240px;
-        .title {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            &:hover {
-                opacity: .8;
-            }
-        }
-        ul {
-            float: left;
-            margin-top: 60px;
-            &:not(.first) {
-                margin-left: 120px;
-            }
-            li{
-                opacity: .8;
-                line-height: 2;
-                &:hover {
-                    opacity: 1;
+        .l {
+            margin-top: -40px;
+            .item {
+                a {
+                    display: inline-block;
+                    width: 120px;
+                    text-align: center;
+                    font-size: 16px;
+                    color: #fff;
                 }
             }
-            &.weixin img{
-                height: 64px;
-                width: 64px;
+        }
+        .r {
+            display: flex;
+            .qrcode {
+                img {
+                    width: 122px;
+                    height: 122px;
+                    background-color: red;
+                }
+                p {
+                    text-align: center;
+                }
             }
-            &.authorized img{
-                height: 80px;
-                width: 80px;
-            }
-            &.authorized,
-            &.weixin {
-                li {
-                    cursor: default;
-                    opacity: .8;
+            .info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                margin-left: 20px;
+                height: 122px;
+                p,h4 {
+                    margin: 0;
+                }
+
+                span {
+                    display: inline-block;
+                    background-color: #3e94fb;
+                    border-radius: 20px;
+                    padding: 0 10px;
                 }
             }
         }
     }
+
     .bottom {
-        color: #fff;
-        opacity: .4;
-        height: 60px;
-        -webkit-background-clip: padding-box; /* for Safari */
-        background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-        border-top: 1px solid rgba(255, 255, 255, .1);
         text-align: center;
-        line-height: 60px;
+        padding-top: 30px;
+        box-sizing: border-box;
     }
 }
 
@@ -65,15 +68,29 @@
 <template lang="jade">
 footer.footer(__vuec__)
   div.container
+    .l
+        .item
+            a(href='') 首页
+            a(href='') 我是雇主
+            a(href='') 积分充值
+            a(href='') 关于平台
+        .item
+            a(href='') 需求池
+            a(href='') 我是工作者
+            a(href='') 积分管理
+            a(href='') 个人中心
+    .r
+        .qrcode
+            img
+            p 关注我们
+        .info
+            p 自由盟邦网服务热线
+            h4 010-53393309
+            p 客服QQ
+                span 1776261265
+            p 周一至周五：09:00—21:00
+            p 周末及节假日：09:00—08:00
   div.bottom
-    span @2016 Designer
-    span.ml-20
-      a(href="https://www.baidu.com/duty/", target="_blank") 自由设计师平台
+    p Copyright © 2016 - 2020 free-designer.cn All rights reserved.自由工程协作平台©版权所有.
+    p 京ICP备17002726号-1
 </template>
-<script>
-export default {
-    data() {
-        return {};
-    }
-};
-</script>

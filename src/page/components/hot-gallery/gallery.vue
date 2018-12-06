@@ -1,4 +1,5 @@
 <template lang="jade">
+.gallery_title(__vuec__) 他们的作品&nbsp;&nbsp;Their works
 .sort
   .container
     div.condition
@@ -110,11 +111,19 @@ export default {
 };
 </script>
 <style lang="less">
+.gallery_title[__vuec__]{
+    height: 57px;
+    line-height: 57px;
+    padding-left: 20px;
+    color: #fff;
+    font-size: 25px;
+    background-color: #c3c3c3;
+}
 .sort {
   padding-top: 10px;
   height: 50px ;
   line-height: 50px;
-  background: rgba(255, 255, 255, .6);
+background-color: #eaeaea;
 }
 .condition {
   width: 400px;

@@ -38,7 +38,7 @@ export default {
         api.get({
             url: constant.API.USER + '?is_recommend=Tr  ue'
         }).done(function () {
-            that.engineersList = this.data;
+            that.engineersList = this.data.slice(0, 4);
         })
     },
     methods: {
@@ -152,6 +152,9 @@ export default {
                 max-width:500px
             }
         }
+        .item:hover{
+            box-shadow:0 0 15px #0CC;
+        }
         .item {
             display: flex;
             flex-direction: column;
@@ -162,7 +165,7 @@ export default {
             float: left;
             margin: 0 25px 30px 25px;
             background-color: #ffffff;
-            box-shadow:0 0 15px #0CC;
+            box-shadow:0 0 15px #cecece;
             .avatar {
                 width: 92px;
                 height: 92px;

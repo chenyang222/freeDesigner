@@ -14,13 +14,17 @@
                         <div class="title">{{items.name}}</div>
                         <div class="exp">{{items.career}}年工作经验</div>
                         <div class="label" v-if="items.role">
-                            <span v-for="(idx, childItem) in items.role.split(',').slice(0,1)" :key="idx">
+                            <span v-for="(idx, childItem) in items.roleList" :key="idx">
                                 【{{ childItem }}】
                             </span>
                         </div>
                     </div>
                 </li>
             </ol>
+          </div>
+          <div class="changeEnginerrslist" @click="getRandomEnginerrsList">
+            <img src="./refresh.png" alt="">
+            <span>换一批</span>
           </div>
       </div>
   </div>
@@ -34,19 +38,39 @@ export default {
         }
     },
     created (){
-        let that = this;
-        api.get({
-            url: constant.API.USER + '?is_recommend=Tr  ue'
-        }).done(function () {
-            that.engineersList = this.data.slice(0, 4);
-        })
+        this.getRandomEnginerrsList();
     },
     methods: {
-        fetch () {
-            return api.get({
+        getRandomEnginerrsList () {
+            let that = this;
+            api.get({
                 url: constant.API.USER + '?is_recommend=True'
+            }).done(function () {
+                if (this.data.length > 8) {
+                    let list = that.getRandomArrayElements(this.data, 8);
+                    for (let i = 0;i < list.length; i++) {
+                        list[i].roleList = list[i].role.split(',').slice(0,2)
+                    }
+                    that.engineersList = list
+                } else {
+                    let list = this.data;
+                    for (let i = 0;i < list.length; i++) {
+                        list[i].roleList = list[i].role.split(',').slice(0,2)
+                    }
+                    that.engineersList = list;
+                }
             })
         },
+        getRandomArrayElements(arr, count) { // 随机获取数组中的8个
+            var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+            while (i-- > min) {
+                index = Math.floor((i + 1) * Math.random());
+                temp = shuffled[index];
+                shuffled[index] = shuffled[i];
+                shuffled[i] = temp;
+            }
+            return shuffled.slice(min);
+        }
     }
 }
 </script>
@@ -194,6 +218,22 @@ export default {
             }
         }
 
+    }
+    .changeEnginerrslist{
+        width: 124px;
+        height: 38px;
+        background-color: #4495f7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        font-size: 20px;
+        color: #ffffff;
+        line-height: 38px;
+        cursor: pointer;
+        img{
+            margin-right: 5px;
+        }
     }
 }
 </style>

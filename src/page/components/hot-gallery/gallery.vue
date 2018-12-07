@@ -25,16 +25,18 @@
             img.mt-10.fl(:src="gallery.user_avatar")
             .fl.ml-20 {{gallery.username}}
     .clear
-overlay
+gallerydetail(v-if="isShowDetail", :detail='detailProp')
 </template>
 <script>
 import constant from '/src/assets/js/constant';
 import api from '/src/assets/js/api';
-import overlay from '/src/page/components/gallery-overlay/overlay';
+import gallerydetail from '/src/page/components/gallery-detail/gallery-detail';
+// import overlay from '/src/page/components/gallery-overlay/overlay';
 
 export default {
     components: {
-        overlay
+        // overlay
+        gallerydetail
     },
     asyncData (resolve, reject) {
         this.fetch().done(function () {
@@ -72,10 +74,18 @@ export default {
         // 父组件向子组件派发请求
         // 弹出相册遮罩，展示详细展开包的信息，和更多相册信息
         showOverlay (gallery) {
-            this.$broadcast('changeGallery', {
-                data: gallery,
-                showModal: true
-            });
+            // this.$broadcast('changeGallery', { // old gallery detail
+            //     data: gallery,
+            //     showModal: true
+            // });
+
+            // new gallery detail
+            this.isShowDetail = true;
+            this.detailProp = gallery;
+        },
+        closeGallery () {
+            this.isShowDetail = false;
+            this.detailProp = {};
         },
         // 切换排序
         sort (e) {
@@ -105,7 +115,9 @@ export default {
             info: {},
             sortType: sortType,
             success: false,
-            gallerys: []
+            gallerys: [],
+            isShowDetail: false,
+            detailProp: {}
         };
     }
 };

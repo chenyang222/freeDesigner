@@ -2,39 +2,44 @@
     <div class="galleryDetail" __vuec__>
         <div class="close" @click="closeGallery()">X</div>
         <div class="content">
-            <div class="title">{{ galleryUserInfo.name }}</div>
-            <div class="userInfo">
-                <div class="left-info">
-                    <div class="avatar">
-                        <img :src="designerInfo.avatar" alt="avatar">
+            <div class="contentbox">
+                <div class="title">{{ galleryUserInfo.name }}</div>
+                <div class="userInfo">
+                    <div class="left-info">
+                        <div class="avatar">
+                            <img :src="designerInfo.avatar" alt="avatar">
+                        </div>
+                        <div class="info">
+                            <div class="name">&nbsp;&nbsp;{{ designerInfo.name }}</div>
+                            <div class="box">
+                                <span class="skill" v-for="(idx, childItem) in designerInfo.role.split(',')" :key="idx">
+                                    【{{ childItem }}】
+                                </span>
+                                <span class="caree">{{ designerInfo.career }}年工作经验</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="info">
-                        <div class="name">&nbsp;&nbsp;{{ designerInfo.name }}</div>
-                        <div class="box">
-                            <span class="skill" v-for="(idx, childItem) in designerInfo.role.split(',')" :key="idx">
-                                【{{ childItem }}】
-                            </span>
-                            <span class="caree">{{ designerInfo.career }}年工作经验</span>
+                    <div class="right-info" @click="clickLike">
+                        <span class="number">{{ designerInfo.like_count }}</span>
+                        <span class="like">like</span>
+                    </div>
+                </div>
+                <div class="image-content">
+                    <div class="showImage">
+                        <img :src="nowImage" alt="avatar">
+                    </div>
+                    <div class="selectImage">
+                        <div class="imgbox" :style="styleObj">
+                            <div @click="selectImg(items.mid_image, idx)" :class="idx == nowIndex ? 'img active' : 'img'" v-for="(idx, items) in galleryList" :key="idx">
+                                <img :src="items.small_image">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="right-info" @click="clickLike">
-                    <span class="number">{{ designerInfo.like_count }}</span>
-                    <span class="like">like</span>
-                </div>
+                <div class="galleryDetail"></div>
             </div>
-            <div class="image-content">
-                <div class="showImage">
-                    <img :src="nowImage" alt="avatar">
-                </div>
-                <div class="selectImage">
-                    <div class="imgbox">
-                        <div class="img" v-for="(idx, items) in galleryList" :key="idx">
-                            <img :src="items.small_image">
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div @click="prev" class="prev btnStyle">《</div>
+            <div @click="next" class="next btnStyle">》</div>
         </div>
     </div>
 </template>
@@ -49,7 +54,11 @@ export default {
                 role: ''
             },
             galleryList: [],
-            nowImage: ''
+            nowImage: '',
+            nowIndex: 0,
+            styleObj: {
+                left: '0px'
+            }
         }
     },
     props:['detail'],
@@ -79,6 +88,7 @@ export default {
             console.info(this.data)
             that.galleryList = this.data;
             that.nowImage = this.data[0].mid_image;
+            that.nowIndex = 0;
         })
     },
     methods: {
@@ -93,6 +103,35 @@ export default {
             }).done(function () {
                 that.designerInfo.like_count += 1 
             })
+        },
+        selectImg (img, idx) {
+            this.nowImage = img;
+            this.nowIndex = idx;
+            let leftPx = 0;
+            if(this.nowIndex < 3){
+                leftPx = 0;
+            }else if(this.nowIndex + 3 <= this.galleryList.length){
+                leftPx = - (this.nowIndex - 3 + 1 ) * 153.5
+            }else{
+                leftPx = - (this.galleryList.length - 5) * 153.5
+            }
+            this.styleObj = {
+                left: leftPx + 'px'
+            }
+        },
+        prev () {
+            if (this.nowIndex - 1 < 0) {
+                return
+            }
+            this.nowIndex = this.nowIndex - 1;
+            this.selectImg(this.galleryList[this.nowIndex].mid_image, this.nowIndex)
+        },
+        next () {
+            if (this.nowIndex + 1 > this.galleryList.length - 1) {
+                return
+            }
+            this.nowIndex = this.nowIndex + 1;
+            this.selectImg(this.galleryList[this.nowIndex].mid_image, this.nowIndex)
         }
     }
 }
@@ -119,11 +158,14 @@ export default {
         cursor: pointer;
     }
     .content{
-        width: 800px;
-        height: 90%;
-        overflow-y: auto;
         background-color: #F4F4F4;
         border-radius: 10px;
+        position: relative;
+        .contentbox{
+            width: 800px;
+            height: 90%;
+            overflow-y: auto;
+        }
         .title{
             width: 738px;
             margin: 0 auto;
@@ -206,7 +248,6 @@ export default {
                 margin: 27px 29px 21px 29px;
                 height: 98px;
                 position: relative;
-                background-color: #ffffff;
                 .imgbox{
                     display: flex;
                     position: absolute;
@@ -214,16 +255,32 @@ export default {
                     .img{
                         width: 128px;
                         height: 98px;
-                        margin-right: 22px;
+                        margin-right: 25.5px;
                         overflow: hidden;
                         display: inline-block;
                         img{
                             height: 100%;
                         }
                     }
+                    .active{
+                        box-shadow:0 0 15px #0CC;
+                    }
                 }
             }
         }
+    }
+    .btnStyle{
+        font-size: 40px;
+        color: #ffffff;
+        position: absolute;
+        top: 375px;
+        cursor: pointer;
+    }
+    .prev{
+        left: -70px;
+    }
+    .next{
+        right: -70px;
     }
 }
 </style>

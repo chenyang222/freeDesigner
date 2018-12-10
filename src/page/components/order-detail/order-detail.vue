@@ -30,9 +30,6 @@
         li
           span 已加赏金
           span.ml-30 ￥{{order.fee/100}} 积分
-        li
-          span 违约金额
-          span.ml-30 ￥{{order.violate_cost/100 || 0}} 积分
   .description
     .project-desc.container
       .label.border.mt-20 项目描述

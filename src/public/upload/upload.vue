@@ -25,18 +25,24 @@ export default {
         this.FILE_NAME_NOT_CONTAINS = [';']; // 文件名不能包含的内容
     },
     computed: {
-        accept() {
-            let accept = '*';
-            switch(this.type) {
+        accept () {
+            let accept = '*'
+            switch (this.type) {
+                case 'avatar':
                 case 'work':
-                    accept = 'image/png, image/jpeg, image/jpg, image/gif';
-                break;
+                case 'deliveries':
+                case 'order_work':
+                accept = 'image/png, image/jpeg, image/jpg, image/gif'
+                break
                 case 'resource':
-                    accept = '*';
-                break;
+                accept = '*'
+                break
+                case 'camera':
+                accept = 'image/*'
+                break
             }
-            return accept;
-        }
+            return accept
+            }
     },
     methods: {
         onUploadComplete (e) {

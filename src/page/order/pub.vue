@@ -4,62 +4,59 @@ dheader
   .banner.pt-40
     .title {{title}}
     .subtitle.mt-10 发起众包
-    .family
-      select(disabled)
-        option(selected) 选择家族身份
   .detail
     ul.main.container
       li
         .label 选择项目分类：
         .fr
-          select(v-model="fcate")
+          select(v-model="fcate", :disabled="this.id ? true :false")
             option(v-for="opt in fcates", :value="opt") {{opt}}
         .clear
         .desc 选择您的工程分类
       li
         .label 选择项目需求：
         .fr
-          select(v-model="scate")
+          select(v-model="scate", :disabled="this.id ? true :false")
             option(v-for="(opt) in scates", :value="$key") {{$key}}
         .clear
         .desc 选择您要发包的项目类型
       li
         .label 任务量
         .fr
-          input(v-model="task_count", placeholder="请填写数量及选择单位")
-          select(v-model="task_unit")
+          input(v-model="task_count", placeholder="请填写数量及选择单位", :disabled="this.id ? true :false")
+          select(v-model="task_unit", :disabled="this.id ? true :false")
             option(v-for="opt in units", :value="opt") {{opt}}
         .clear
         .desc 填写您需求的数量【如1套、5张、1项】
       li(v-if="scateitems.hasOwnProperty('area')")
         .label 平米数
         .fr
-          input(v-model="dynamic_info.area", placeholder="请填写建筑平米数", @change="getSysCost")
+          input(v-model="dynamic_info.area", placeholder="请填写建筑平米数", @change="getSysCost", :disabled="this.id ? true :false")
           .area.fl 平米
         .clear
         .desc 填写项目的建筑平米数
       li
         .label 项目地址
         .fr
-          input(v-model="location", placeholder="请填写项目地址")
+          input(v-model="location", placeholder="请填写项目地址", :disabled="this.id ? true :false")
         .clear
         .desc 请填写您项目大概位置
       li.h-auto
         ul.selection.dynamic-items
-          li(v-for="item in scateitems", v-if="$key !== 'area'")
-            .label {{ item }}
-            .clear
-            div(v-if="$key === 'style'", @change="resetDynamicItems")
-              select(data-dynamic="{{$key}}")
-                option(v-for="opt in styles", :value="opt", selected="$index === 0") {{opt}}
-            div(v-else)
-              select(data-dynamic="{{$key}}", @change="resetDynamicItems")
-                option(value="false", selected) 否
-                option(value="true") 是
+            li(v-for="item in scateitems", v-if="$key !== 'area'")
+              .label {{ item }}
+              .clear
+              div(v-if="$key === 'style'", @change="resetDynamicItems")
+                select(data-dynamic="{{$key}}", :disabled="this.id ? true :false")
+                  option(v-for="opt in styles", :value="opt", selected="$index === 0") {{opt}}
+              div(v-else)
+                select(data-dynamic="{{$key}}", @change="resetDynamicItems", :disabled="this.id ? true :false")
+                  option(value="false", selected) 否
+                  option(value="true") 是
       li.clear
         .label 任务交付日期
         .fr
-          input.deadline(v-model="deadline | date", placeholder="交付日期")
+          input.deadline(v-model="deadline", placeholder="交付日期", :disabled="this.id ? true :false")
         .clear
         .desc 选择您要求承接方的任务交付日期
     .transition
@@ -70,25 +67,40 @@ dheader
         li
           .label 项目相关资料
           .upload-wrap
-            .name.fl
-              a(:href="extra_resource") {{extra_resource_name}}
-            .save.btn(@click="uploadZip")
-              a 上传材料
-            upload(type="resource", maxsize="50*1024")
+            .img-box
+              .img-item(v-for='item in projectFiles', :key='$key')
+                img(v-if="item[3] === 'img'", :src='item[1]', alt='')
+                span(v-else='') {{item[0]}}
+              .img-item.btna(@click='uploadZip', v-if="!this.id")
+              upload(type="resource")
           .clear
         li
-          .label 设定违约金
-          input(placeholder="0.00", v-model="violate_cost", type="number")
+          .label 增加赏金（积分）
+          input(placeholder="0.00", v-model="feeComputed", type="number", @keyup="getSysCost | debounce 800")
         li
-          .label 增加赏金
-          input(placeholder="0.00", v-model="fee", type="number", @keyup="getSysCost | debounce 800")
+          .label 设置问题以及试卷
+          div.question_item
+            span 第一题 
+            input(placeholder="第一题", v-model="question.a")
+          div.question_item
+            span 第二题 
+            input(placeholder="第二题", v-model="question.b")
+          div.question_item
+            span 第三题 
+            input(placeholder="第三题", v-model="question.c")
+          div.question_item
+            span 第四题 
+            input(placeholder="第四题", v-model="question.d")
+          div.question_item
+            span 第五题 
+            input(placeholder="第五题", v-model="question.e")
       ul.submit
         li.sys-cost
           .label 系统报价
-            .number.ml-20 ￥{{system_cost/100}}
+            .number.ml-20 {{system_cost / 100}}积分
         li.pub-cost
-          .label 最终报价 (系统报价 {{system_cost/100}} + 赏金 {{fee}})
-            .number.ml-20 ￥{{pub_cost/100}}
+          .label 最终报价 (系统报价 {{system_cost / 100}} + 赏金 {{fee}})
+            .number.ml-20 {{pub_cost / 100}}积分
         li
           .btn
             a(v-if="!id", @click="submit") 确认发单
@@ -111,9 +123,20 @@ export default {
         upload
     },
     events: {
-        uploadComplete(ret) {
-           this.extra_resource = ret.data.lname;
-           this.extra_resource_name = ret.fname;
+        uploadComplete(resp) {
+          let data = resp.data
+          switch (data[0][0].split('.')[1]) {
+            case 'png':
+            case 'jpeg':
+            case 'jpg':
+            case 'gif':
+              data[0][3] = 'img'
+              break
+            default:
+              data[0][3] = 'file'
+              break
+          }
+          this.projectFiles.push(data[0])
         },
         uploadProgress(e) {
             let position = e.position;
@@ -121,10 +144,18 @@ export default {
         }
     },
     computed: {
+      feeComputed:{
+        get:function(){
+          return this.fee
+        },
+        set:function(val){
+          this.fee = val
+        }
+      },
         pub_cost() {
             let fee = parseInt(this.fee, 10) || 0;
             let sysCost = parseInt(this.system_cost, 10) || 0;
-            let pubCost = (fee * 100) + sysCost;
+            let pubCost = fee + sysCost;
             return pubCost;
         },
         // 获得表单数据
@@ -138,8 +169,6 @@ export default {
                 system_cost: this.system_cost,
                 location: this.location,
                 extra_info: this.desc,
-                extra_resource: this.extra_resource,
-                extra_resource_name: this.extra_resource_name,
                 style: this.style,
                 pub_cost: this.pub_cost,
                 deadline: this.deadline,
@@ -147,7 +176,10 @@ export default {
                 task_unit: this.task_unit,
                 violate_cost: this.violate_cost,
                 desc: this.desc,
-                fee: parseInt(this.fee, 10)
+                fee: parseInt(this.fee, 10),
+                files:this.projectFiles.length ? this.projectFiles.map(v => {
+                  return v[2]
+                }).join() : this.files
             };
             return data;
         }
@@ -160,16 +192,55 @@ export default {
     asyncData(resolve) {
         let self = this;
         this.fetchCategory()
-          .done(function() {
+          .done(function(res) {
             resolve(this.data);
             // 默认动态必填项的
             self.scateitems = self.scates[self.scate];
         });
         if (this.id) {
+          let orderInfo = null
+          let question = null
             this.fetch()
             .done(function () {
-                resolve(this.data);
+              orderInfo = this.data
             });
+
+            this.getQuestionList()
+            .done(function(){
+              question = this.data
+            })
+
+            let timer = setInterval(() => {
+              if(orderInfo && question){
+                clearInterval(timer)
+                if(!question.length) {
+                  resolve(Object.assign({},{
+                    ...orderInfo,
+                    question:{
+                      a:'',
+                      b:'',
+                      c:'',
+                      d:'',
+                      e:''
+                    },
+                    questionEdit:[]
+                  }))
+                } else {
+                  let v = question.sort((a,b)=>a.qid-b.qid)
+                  resolve(Object.assign({},{
+                    ...orderInfo,
+                    question:Object.assign({},{
+                    a: v[0].question,
+                    b: v[1].question,
+                    c: v[2].question,
+                    d: v[3].question,
+                    e: v[4].question
+                  }),
+                    questionEdit:v
+                  }))
+                }
+              }
+            }, 500);
         }
     },
     ready() {
@@ -186,6 +257,11 @@ export default {
             return api.get({
                 url: this.url + this.id + '/'
             });
+        },
+        getQuestionList(){
+          return api.get({
+            url:`/api/orders/${this.id}/questions/`
+          })
         },
         // 获取分类信息和动态必填项
         fetchCategory() {
@@ -206,15 +282,48 @@ export default {
             });
         },
         submit() {
+            const {question,questionEdit} = this
+            const self = this
             let ajax = this.id ? api.patch : api.post;
             let data = this.id ? {
-                fee: this.fee
+                fee: this.fee,
+                desc:this.desc
             } : this.formData;
             let url = this.id ? this.url + this.id + '/' : this.url;
             ajax({
                 url: url,
-                data: this.formData
-            }).done(() => window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT);
+                data,
+            }).done(function(){
+              const id = this.data.id         
+              if(!self.id) {
+                Promise.all([
+                  Object.keys(question).map((v, i) =>
+                    api.post({
+                      url: `/api/orders/${id}/questions/`,
+                      data:{
+                        qid: i,
+                        question: question[v]
+                      }
+                    })
+                  )
+                ]).then(()=>{
+                  // window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                })
+              } else {
+                Promise.all([
+                  questionEdit.map((v,i)=>{
+                    api.patch({
+                      url:`/api/orders/${self.id}/questions/${v.qid}/`,
+                      data:{
+                        question:question[Object.keys(question)[i]]
+                      }
+                    })
+                  })
+                ]).then(()=>{
+                  window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                })
+              }
+            })
         },
         uploadZip() {
             $('#upload').click();
@@ -237,6 +346,8 @@ export default {
     data() {
         let id = utils.getURLParam('id');
         return {
+            orderType:1,
+            projectFiles:[],
             id,
             // 默认是订单, 如果单独的订单页面会重新渲染
             url: constant.API.ORDERS,
@@ -254,13 +365,20 @@ export default {
             extra_resource: '',
             location: '',
             extra_resource_name: '未上传文件',
-            system_cost: 2000,
+            system_cost: 200,
             total_cost: 0, // 项目总价， 预算
-            fee: '',
+            fee: 0,
             violate_cost: '', // 违约金
             deadline: utils.formatDate(new Date().getTime() + 24*1000*3600, 'yyyy-mm-dd hh:nn'),
             desc: '',
-            lodash: _
+            lodash: _,
+            question: {
+              a: '',
+              b: '',
+              c: '',
+              d: '',
+              e: ''
+            },
         };
     }
 }
@@ -270,6 +388,38 @@ export default {
 @import '/src/assets/css/jqueryui/jquery.ui.css';
 
 .wrap[__vuec__] {
+  .img-box {
+  display: flex;
+  flex-wrap: wrap;
+
+  .img-item {
+    width: 140px;
+    height: 105px;
+    background-color: #ececec;
+    margin-right: 12px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+
+    span {
+      color: #959595;
+    }
+
+    &:nth-child(3n+0){
+      margin-right: 0;
+    }
+    &:nth-child(n+4){
+      margin-top: 10px;
+    }
+    &.btna {
+      background: url('./images/add.png') no-repeat center #ececee;
+      background-size: 50%;
+    }
+  }
+}
   .banner {
     background: #f4f4f4;
     height: 140px;
@@ -301,7 +451,6 @@ export default {
     }
     ul {
       li {
-        height: 100px;
         color: #333;
         .label {
           float: left;
@@ -402,6 +551,18 @@ export default {
       input {
         width: 100%;
       }
+      .question_item {
+        display: flex;
+        align-items: center;
+
+        &+.question_item {
+          margin-top: 20px;
+        }
+        span {
+          display: inline-block;
+          width: 55px;
+        }
+      }
     }
     .submit {
       background-color: #fff;
@@ -418,7 +579,7 @@ export default {
         margin: auto;
         .number {
           display: inline-block;
-          color: red;
+          color: blue;
         }
       }
     }

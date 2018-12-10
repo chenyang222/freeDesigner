@@ -1,7 +1,5 @@
 'use strict';
 
-console.log(111)
-
 function fromISO (date) {
     if (typeof date === 'string') {
         var s = date;

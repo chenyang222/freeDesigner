@@ -35,10 +35,10 @@ constant.API =  {
     USER_ABILITY: '/user_ability/',
     USER_GALLERY: '/gallery/',
     HOT_GALLERY: '/hot_gallery/',
-    UPLOAD_FILE: '/upload_file/',
+    UPLOAD_FILE: '/upload_files/',
     LIKE_IT: '/like_it/',
     ORDERS: '/orders/',
-    ORDER_CATEGORY: '/order/category/',
+    ORDER_CATEGORY: '/orders/categories/',
     ORDER_CONFIRM: '/order_confirm/',
     SUGGEST_PRICE: '/suggest_cost/',
     APPLY_RECORDS: '/apply_records/',  // 和子资源的url一样, 但是路径不一样

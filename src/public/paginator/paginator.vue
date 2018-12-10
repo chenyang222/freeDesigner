@@ -96,7 +96,7 @@ export default {
     methods: {
         // 重新fetch当前页面数据
         dispatchChangePageEvent() {
-            this.$dispatch('changePage', this.page);
+            this.$parent.changePage(this.page)
         },
         // 到第一页
         prevAll() {

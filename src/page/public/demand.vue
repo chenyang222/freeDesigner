@@ -6,16 +6,15 @@
 dheader
 .apply(__vuec__)
   .banner
-    .title 需求池
-    .select-wrap
-      .left-wrap.fl
-        select(v-model="fcate", @change="changeFcate")
-          option(value="all") 选择项目分类
-          option(v-for="opt in fcates", :value="opt") {{opt}}
-      .right-wrap.fl
-        select(v-model="scate", @change="changeScate")
-          option(value="all") 选择项目需求
-          option(v-for="(opt) in scates", :value="$key") {{$key}}
+  .select-wrap
+    .left-wrap.fl
+      select(v-model="fcate", @change="changeFcate")
+        option(value="all") 选择项目分类
+        option(v-for="opt in fcates", :value="opt") {{opt}}
+    .right-wrap.fl
+      select(v-model="scate", @change="changeScate")
+        option(value="all") 选择项目需求
+        option(v-for="(opt) in scates", :value="$key") {{$key}}
   .clear.mt-20
   .orders.container(v-for="order in orders")
     .name {{order.user_name}}
@@ -23,7 +22,7 @@ dheader
       a(href="{{publicURL}}?uid={{order.user.id}}")
         img.fl(:src="order.user.avatar")
     .desc-title.fl.ellipsis(title="{{order.title}}") {{order.title}}
-    .system-cost.fl.ml-100 {{order.pub_cost/100}}积分
+    .system-cost.fl.ml-100 {{order.pub_cost/100}}
     a.link(href="{{applyRecordURL}}?oid={{order.id}}", target="_new")
     .clear
     .time
@@ -32,9 +31,10 @@ dheader
       span.view.ml-40 浏览总计：{{order.view_count}}
       span.apply.ml-40 接单人数：{{order.apply_count}}
   paginator.mt-30(:info="info")
+dfooter  
 </template>
 <script>
-import {Vue, dheader} from 'src/assets/js/page';
+import {Vue, dheader, dfooter} from 'src/assets/js/page';
 import api from 'src/assets/js/api';
 import mixins from 'src/page/mixins';
 import $ from 'jquery';
@@ -44,6 +44,7 @@ export default {
     mixins: [mixins],
     components: {
         dheader,
+        dfooter,
         paginator
     },
     asyncData (resolve, reject) {
@@ -64,7 +65,7 @@ export default {
         query: {
             deep: true,
             handler() {
-                this.reloadAsyncData();
+              this.reloadAsyncData();
             }
         }
     },
@@ -79,7 +80,7 @@ export default {
         // 获取项目分类，项目需求列表
         fetchCategory() {
             return api.get({
-                url: constant.API.ORDER_CATEGORY
+                url: '/api/orders/categories/'
             });
         },
         // 过滤项目需求
@@ -101,6 +102,9 @@ export default {
                 return;
             }
             Vue.set(this.query, 'fcate', val);
+        },
+        changePage(page) {
+          Vue.set(this.query, 'page', page);
         }
     },
     data () {
@@ -131,39 +135,26 @@ export default {
 .apply[__vuec__] {
    .banner {
     position: relative;
-    background: #223137;
-    height: 320px;
-    line-height: 320px;
-    font-size: 30px;
-    border-top: 1px solid #c35115;
-    border-bottom: 1px solid #c35115;
-    .title {
-      position: absolute;
-      z-index: 2;
-      background: url('plate.png') center no-repeat;
-      width: 320px;
-      height: 320px;
-      left: 50%;
-      margin-left: -160px;
-      text-align: center;
-      color: #444;
-    }
+    height: 400px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('./banner.jpg');
   }
   .select-wrap {
     height: 70px;
     margin: auto;
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    right: 0;
-    top: 125px;
-    background: #071c22;
+    background: #c3c3c3;
     select {
       color: #fff;
       position: absolute;
       top: 18px;
       right: 160px;
+      font-size: 24px;
+      background-image: url('./arrow.png');
+      background-position: 100% 50%;
       option{
+        font-size: 14px;
         color: #999999;
       }
     }
@@ -183,6 +174,8 @@ export default {
   font-size: 1.8rem;
   .orders {
     position: relative;
+    margin: auto;
+    margin-top: 26px;
     a {
       height: 100%;
       width: 100%;
@@ -191,11 +184,10 @@ export default {
     }
     .link {
       position: absolute;
+      top: 0;
       right: 0;
       height: 100%;
-      left: 200px;
     }
-    margin: auto;
     background: url(./demand-bg.png) no-repeat center;
     padding-left: 30px;
     padding-right: 30px;
@@ -239,12 +231,16 @@ export default {
     }
     .time
     {
+      width: 1080px;
       height: 40px;
       line-height: 40px;
       position: relative;
       top: -22px;
-      left: 320px;
+      left: 0px;
       color: #999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .count {
       width: 90px;

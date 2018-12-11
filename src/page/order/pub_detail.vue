@@ -9,7 +9,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         a(:href="work[1]", target="_new;")
           img(:src="work[1]")
   div(slot="footer")
-order-user-info(:info="order.apply_records[0]", :detail="order")
+order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisible", @closeUserInfo="closeUserInfo")
 .wrap(__vuec__)
   orderdetail(:otitle="otitle", :order="order")
   .description(v-if="isConfirmed")
@@ -68,10 +68,7 @@ order-user-info(:info="order.apply_records[0]", :detail="order")
                   | {{record.user.role}}
         td
           .btn.w-100(style="margin:auto")
-
-        td
-          .btn.w-100(style="margin:auto")
-            a(@click="confirmOrder(record.id)") 合作确认
+            a(@click="showUserInfo(record)") 查看详情
         td.similar-work
           a(@click="showOverlay(record.works)")
             img(:src="record.works[0]['200x150']", v-if="record.works.length")
@@ -169,6 +166,14 @@ export default {
         },
     },
     methods: {
+      showUserInfo(item){
+        this.currentApplyRecords = item
+        this.userInfoVisible = true
+      },
+      closeUserInfo(){
+        this.userInfoVisible = false
+        this.currentApplyRecords = null
+      },
         fetch() {
             return api.get({
                 url: this.url
@@ -256,6 +261,8 @@ export default {
         let url = constant.API.ORDERS + id;
 
         return {
+            currentApplyRecords:{},
+            userInfoVisible:false,
             url,
             aid: '',
             showModal: false,
@@ -270,9 +277,6 @@ export default {
             similarWorks: [],
             ORDER: constant.ORDER
         };
-    },
-    ready(){
-      console.log(this)
     }
 }
 </script>

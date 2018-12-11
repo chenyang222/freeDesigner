@@ -1,7 +1,7 @@
 <template>
     <div class="containers" __vuec__>
       <div class="mains">
-      <div class="close">X</div>
+      <div class="close" @click="close">X</div>
 
         <div class="main-header">
           <div class="user-info">
@@ -31,8 +31,8 @@
             <h3>答题试卷<span>【您设置了{{userQuestionList.length}}道试题】</span></h3>
           </div>
           <div class="paper-main">
-            <div class="item" v-for="(item, index) in userQuestionList" :key="index">
-              <h4>第{{ index + 1 }}题：{{ item.order_question.question }}</h4>
+            <div class="item" v-for="item in userQuestionList">
+              <h4>第{{ $index + 1 }}题：{{ item.order_question.question }}</h4>
               <div class="time">
                 <img src="./ico_time.png" alt="">【{{ showAnswerTime(item.start_time, item.end_time) }}】
               </div>
@@ -59,34 +59,32 @@
 <script>
 import api from 'src/assets/js/api';
 import utils from 'src/assets/js/utils';
+import eventVue from 'src/assets/js/eventVue';
 
 export default {
   props:['info','detail'],
   asyncData(resolve) {
     let self = this;
-    let id = utils.getURLParam('id');
-    var a = [0,1,2,3,4]
-    Promise.all([
-      a.map(v=>{
-        const url = `/api/apply_records/${id}/answers/?order_question=${v}`
-        return api.get({
-        url
-      })
-    })
-    ]).then(res=>{
-      const arr = []
-      res = res[0]
-      console.log(res)
-    })
-
-    // this.getUserQusetion().done(function() {
-    //     this.order = this.data;
-    //     resolve(this);
-    //     // self.fetchLastComment().done(function () {
-    //     //     this.last_comment = this.data[0];
-    //     //     resolve(this);
-    //     // });
-    // });
+    setTimeout(() => {
+      let n = 0
+      const res = []
+      for (let i = 0; i < 5; i++) {
+        api.get({
+          url:`/api/apply_records/${this.info.id}/answers/`,
+          data:{
+            order_question:i
+          }
+        }).done(function(){
+          n++
+          if(this.data.length !== 0) res.push(this.data[0])
+          if(n === 5){
+            resolve(Object.assign({},{
+              userQuestionList:res
+            }))
+          }
+        })
+      }
+    }, 1000);
   },
   filters: {
     filterRole (val) {
@@ -94,12 +92,10 @@ export default {
       return val.split(',').filter(v => v !== '').map(v => `【${v}】`).join('')
     }
   },
-  ready(){
-    setTimeout(() => {
-      console.log(this.detail,this.info)
-    }, 1000);
-  },
   methods:{
+    close(){
+      this.$emit('closeuserinfo')
+    },
     showAnswerTime (start, end) {
       const time = (end - start) / 1000
       const hour = Math.floor(time / 3600)
@@ -120,29 +116,17 @@ export default {
       return t
     },
     surePay(){
-      
-    },
-    getUserQusetion(id) {
-      var a = [0,1,2,3,4]
-      Promise.all([
-        a.map(v=>
-          api.get({
-            url:`/api/apply_records/${id}/answers/?order_question=${v}`
-          })
-        )
-      ]).then(res=>{
-        console.log(res)
+      api.post({
+        url:'/api/pay/create_order/',
+        data:{
+          goods_id: this.info.id,
+          goods_type: 'pre_order',
+          price_type: 'all'
+        }
+      }).done(function(){
+        console.log(111)
       })
-      
-      //   return fetchUtil(`/apply_records/${id}/answers/?order_question=${questionId}`)
-
-      // api.patch({
-      //     url: this.url,
-      //     data: {
-      //         status: 0
-      //     }
-      // }).done(()=> this.reloadAsyncData());
-    },
+    }
   }
 }
 </script>

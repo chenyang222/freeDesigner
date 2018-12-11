@@ -307,7 +307,7 @@ export default {
                     })
                   )
                 ]).then(()=>{
-                  // window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
                 })
               } else {
                 Promise.all([

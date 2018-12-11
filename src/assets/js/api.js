@@ -52,7 +52,7 @@ API.ajax = function (options) {
     let reject = defered.reject;
     let promise = defered.promise;
     options.url || (options.url = '/');
-    if (!_.endsWith(options.url, '/') && options.url.length !== 0) {
+    if (!_.endsWith(options.url, '/') && options.url.length !== 0 && !options.isNeed) {
         options.url += '/';
     }
     options = _.merge({}, {

@@ -120,7 +120,7 @@ export default {
   }
   .detail {
     overflow: hidden;
-    border-bottom: 1px solid #ccc;
+    // border-bottom: 1px solid #ccc;
     padding-bottom: 30px;
     .name, .user-desc,
     .task-desc,
@@ -151,7 +151,7 @@ export default {
     }
   }
   .description {
-    background: #f4f4f4;
+    // background: #f4f4f4;
     overflow: hidden;
     .desc {
       height: 130px;

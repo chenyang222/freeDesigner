@@ -13,14 +13,39 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
 .wrap(__vuec__)
   orderdetail(:otitle="otitle", :order="order")
   .description(v-if="isConfirmed")
-    .job-pay.container.pb-40
-      .leave-message.fl
-        .avatar.mt-30
-          a(href="{{publicURL}}?uid={{order.applier.id}}")
-            img.fl(:src="order.applier.avatar")
-          .name {{order.applier.name}}
-          .tel TEL: {{order.applier.mobile}}
-  .jobs-container.clear(v-if="showjobs")
+    .l
+      .avatar
+        img(:src="order.applier.avatar")
+      .name {{order.applier.name}}
+      .exp 3年工作经验
+      .type 【弱电智能】【灯光设计】
+      .tel-check
+        a(:href='`tel:${order.applier.mobile}`')
+          img(src='./images/ico_tel.png', alt='')
+        span {{order.applier.mobile}}
+      p 注：工作者交付稿件后五个工作日雇主未发起改稿，系统默认为订单交易结束并完成支付。
+    .r
+      .works_project_files
+        h3 工作者提交的项目文件
+          span 【交付稿件为初稿】
+        ul
+          li
+            img
+      hr
+      p 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
+      hr
+      textarea.revise(placeholder="请在此处编辑改稿内容", v-model="reviseVal")
+      hr
+      .upload_file
+        p 上传改稿所需附件
+        .file_name 请上传附件
+        .uoloadbtn(@click='uploadZip') 上传附件
+          upload(type="resource")
+      .sendRevise 发起改稿
+      hr
+      textarea.revise(placeholder="请在此处编辑对工作者的评价", v-model="evaluateVal")
+      .sendRevise 确定完成
+  .jobs-container.clear(v-if="false")
     upload(type="*", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container
       .first(v-if="showFirstWork")
@@ -42,12 +67,10 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
         .work-name.fl
           a(:href="order.works[2].lname") {{order.works[2].name}}
         .clear.time {{order.works[2].created_on}} 提交
-  .container.clear.mt-20(v-if="isConfirmed")
-    .btn.fl
-      a(@click="submit") 确认订单
   .clear
 
-  table(v-if="showappliers && order.apply_records.length !== 0")
+  table(v-if="showappliers")
+    div(v-if="order.apply_records.length !== 0")
       thead
         th.applier 接单人
         th.action 操作
@@ -166,6 +189,9 @@ export default {
         },
     },
     methods: {
+      uploadZip() {
+          $('#upload').click();
+      },
       showUserInfo(item){
         this.currentApplyRecords = item
         this.userInfoVisible = true
@@ -261,6 +287,8 @@ export default {
         let url = constant.API.ORDERS + id;
 
         return {
+            reviseVal:'',
+            evaluateVal:'',
             currentApplyRecords:{},
             userInfoVisible:false,
             url,
@@ -353,8 +381,125 @@ export default {
     line-height: 54px;
   }
    .description {
+     display: flex;
     background: #f4f4f4;
     overflow: hidden;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    .l {
+      width: 330px;
+      padding-left: 66px;
+      box-sizing: border-box;
+      .avatar{
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        margin: 0;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .name {
+        padding-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .exp {
+        padding-top: 10px;
+        color: #919191;
+        font-size: 12px;
+      }
+      .type {
+        padding-top: 10px;
+        color: #4495f7;
+        font-size: 12px;
+      }
+      .tel-check {
+        padding-top: 20px;
+        a {
+          display: block;
+          width: 43px;
+          height: 43px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        span {
+          font-size: 24px;
+          color: #4195f7;
+          font-weight: bold;
+        }
+      }
+      >p {
+        font-size: 14px;
+      }
+    }
+    .r {
+      flex: 1;
+      .works_project_files {
+        h3 {
+          font-size: 16px;
+          span {
+            color: #4195f7;
+          }
+        }
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+          li {
+            width: 121px;
+            height: 92px;
+            border: 1px solid #000;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+      textarea {
+        width: 100%;
+        min-height: 100px;
+      }
+      .upload_file {
+        display: flex;
+        align-items: center;
+        p {
+          font-size: 16px;
+          color: #919191;
+        }
+        .file_name {
+          color: #777777;
+          font-size: 12px;
+          width: 260px;
+          height: 35px;
+          line-height: 35px;
+          padding-left: 10px;
+          box-sizing: border-box;
+          border: 1px solid #a0a0a0;
+          background-color: #f0f0f0;
+        }
+        .uoloadbtn {
+          margin-left: 20px;
+          width: 112px;
+          height: 35px;
+          color: #fff;
+          background-color: #4195f7;
+          text-align: center;
+          line-height: 35px;
+        }
+      }
+      .sendRevise {
+        margin-top: 20px;
+        width: 172px;
+        height: 35px;
+        text-align: center;
+        line-height: 35px;
+        color: #fff;
+        background-color: #4195f7;
+      }
+    }
   }
   .desc {
     height: 130px;

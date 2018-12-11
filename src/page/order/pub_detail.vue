@@ -1,18 +1,15 @@
-/**
-  @desc: 发单详情，这个地方是确认订单的合作人和最终的的一改，二改，三改。
-*/
 <template lang="jade">
 dheader
 modal(:show.sync="showModal", :css="{width: 640, height: 600}")
-  h3.fl(slot="header")
-    a 上传作品
+  h3.fl(slot="header", style="margin:0;")
+    a 同类案例	
   .slot-body.mt-40(slot="body", __vuec__)
     ul.works.mt-30
       li(v-for="work in similarWorks")
-        a(:href="work['800x600']", target="_new;")
-          img(:src="work['400x300']")
+        a(:href="work[1]", target="_new;")
+          img(:src="work[1]")
   div(slot="footer")
-leavemessage(:aid.sync="aid", :show.sync="showleavemessage")
+order-user-info(:info="order.apply_records[0]", :detail="order")
 .wrap(__vuec__)
   orderdetail(:otitle="otitle", :order="order")
   .description(v-if="isConfirmed")
@@ -23,12 +20,6 @@ leavemessage(:aid.sync="aid", :show.sync="showleavemessage")
             img.fl(:src="order.applier.avatar")
           .name {{order.applier.name}}
           .tel TEL: {{order.applier.mobile}}
-      .bfc
-        .label 接单人的最后留言：
-        .message(v-if="last_comment") {{last_comment.message}}
-        .message.gray(v-else) 接单人没有留言哦!
-        .btn.fr.mr-100
-          a(@click="leaveMessage") 留言
   .jobs-container.clear(v-if="showjobs")
     upload(type="*", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container
@@ -55,28 +46,29 @@ leavemessage(:aid.sync="aid", :show.sync="showleavemessage")
     .btn.fl
       a(@click="submit") 确认订单
   .clear
-  table(v-if="showappliers")
-    thead
-      th.applier 接单人
-      th.action 操作
-      th.similar 同类案例
-      th.challenge 议价
-    tbody
+
+  table(v-if="showappliers && order.apply_records.length !== 0")
+      thead
+        th.applier 接单人
+        th.action 操作
+        th.similar 同类案例
+        th.challenge 议价
+      tbody
       tr(v-for="record in order.apply_records")
         td
-          .avatar-wrap.fl
-            .avatar.mt-30
-              a(href="{{publicURL}}?uid={{record.user.id}}")
-                img.fl(:src="record.user.avatar")
-            .clear
-            .name.cyan {{record.user.name}}
-          .bfc
-            .fl
-              .label 接单人的最后留言：
-              .message(v-if="record.message") {{record.message}}
-              .message.gray(v-else) 接单人没有留言哦!
-            .btn.fl.ml-20.mt-50
-              a(@click="leaveMessage(record.id)") 留言
+          .item
+              .avatar
+                img(:src="record.user.avatar", alt='')
+              .info
+                .item-header
+                  .title  {{record.user.name}}
+                div
+                  .exp  {{record.user.career}}年工作经验
+                .skill
+                  | {{record.user.role}}
+        td
+          .btn.w-100(style="margin:auto")
+
         td
           .btn.w-100(style="margin:auto")
             a(@click="confirmOrder(record.id)") 合作确认
@@ -86,17 +78,19 @@ leavemessage(:aid.sync="aid", :show.sync="showleavemessage")
             span 共{{record.works.length}}图片
         td.challenge
           {{record.apply_cost}}积分
+    div(v-else, style="height:100px;text-align: center;line-height: 100px;") 暂无接单人
+dfooter
 </template>
 <script>
-import {Vue, dheader} from 'src/assets/js/page';
+import {Vue, dheader,dfooter} from 'src/assets/js/page';
 import api from 'src/assets/js/api';
 import orderdetail from 'src/page/components/order-detail/order-detail';
 import modal from 'src/public/modal/modal';
 import upload from 'src/public/upload/upload';
-import leavemessage from 'src/page/components/leave-message/leave-message';
 import $ from 'jquery';
 import utils from 'src/assets/js/utils';
 import mixins from 'src/page/mixins';
+import orderUserInfo from '/src/page/order/order_user_info'
 
 export default {
     mixins: [mixins],
@@ -105,20 +99,24 @@ export default {
         orderdetail,
         upload,
         modal,
-        leavemessage
+        dfooter,
+        orderUserInfo
     },
     asyncData(resolve) {
         let self = this;
         this.fetch().done(function() {
             this.order = this.data;
             resolve(this);
-            self.fetchLastComment().done(function () {
-                this.last_comment = this.data[0];
-                resolve(this);
-            });
+            // self.fetchLastComment().done(function () {
+            //     this.last_comment = this.data[0];
+            //     resolve(this);
+            // });
         });
     },
     computed: {
+      userInfo(){
+        return this.order.apply_records[0]
+      },
         showappliers() {
             return this.order.status > constant.ORDER.CONFIRMED;
         },
@@ -144,7 +142,6 @@ export default {
         },
         // 确认订单按钮显示
         isConfirmed() {
-            console.log(this.order.status);
             return this.order.status > 0 && this.order.status <= 80;
         },
         // 确认订单按钮显示
@@ -273,6 +270,9 @@ export default {
             similarWorks: [],
             ORDER: constant.ORDER
         };
+    },
+    ready(){
+      console.log(this)
     }
 }
 </script>
@@ -442,12 +442,45 @@ export default {
       }
     }
     td {
+      .item {
+      display: flex;
+      justify-content: center;
       .avatar {
-        margin-left: 50px;
-        a {
-          margin-left: 0;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
         }
       }
+      .info {
+        flex: 1;
+        margin-left: 25px;
+        >div {
+          display: flex;
+          font-size: 26px;
+          &.item-header {
+            justify-content: space-between;
+          }
+          &.skill {
+            font-size: 22px;
+            font-weight: bold;
+          }
+          .title {
+            font-weight: bold;
+          }
+          .integral {
+            font-weight: bold;
+            color: #ff0000;
+          }
+          .exp {
+            color: #808080;
+          }
+        }
+      }
+    }
       .name {
         text-align: left;
         text-indent: 50px !important;

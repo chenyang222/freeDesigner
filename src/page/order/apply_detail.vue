@@ -112,10 +112,6 @@ export default {
         let self = this;
         this.fetch().done(function() {
             resolve(this.data);
-            self.fetchLastComment().done(function () {
-                this.last_comment = this.data[0];
-                resolve(this);
-            });
         });
 
     },

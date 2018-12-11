@@ -3,7 +3,6 @@
   .banner.pt-40
     .title {{order.title}}
     .subtitle.mt-10 {{otitle}}
-    .family 家族
   .detail
     .main.container
       .avatar.mt-30

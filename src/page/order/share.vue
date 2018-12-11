@@ -4,7 +4,6 @@ dheader
   .banner.pt-40
     .title {{order.title}}
     .subtitle.mt-10 项目详情
-    .family 家族
   .detail
     .main.container
       .avatar.mt-30

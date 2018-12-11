@@ -1,7 +1,3 @@
-/**
-  @desc: 接单详情，这个地方是确认订单的一改，二改，三改。
-*/
-
 <template lang="jade">
 dheader
 modal(:show.sync="showModal", :css="{width: 640, height: 600}")
@@ -16,21 +12,94 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
 .wrap(__vuec__)
   orderdetail(:otitle="otitle", :order="order")
   .description
-    .job-pay.container.pb-40
-      .leave-message.fl
-        .avatar.mt-30
-          a(href="{{publicURL}}?uid={{order.user.id}}")
-            img.fl(:src="order.user.avatar")
-          .name {{order.user.name}}
-          .tel TEL: {{order.user.mobile}}
-      .bfc
-        .label 发单人最后留言：
-        .message(v-if="last_comment") {{last_comment.message}}
-        .message.gray(v-else) 发单人没有留言哦!
-        .btn
-          a(@click="leaveMessage") 留言
-      leavemessage(:aid="aid", :show.sync="showleavemessage")
-  .jobs-container.clear(v-if="showjobs")
+    .l
+      .avatar
+        img(:src="order.applier.avatar")
+      .name {{order.applier.name}}
+      .exp 3年工作经验
+      .type 【弱电智能】【灯光设计】
+      .tel-check
+        a(:href='`tel:${order.applier.mobile}`')
+          img(src='./images/ico_tel.png', alt='')
+        span {{order.applier.mobile}}
+      p 注：工作者交付稿件后五个工作日雇主未发起改稿，系统默认为订单交易结束并完成支付。
+    .r
+      .first
+        .works_project_files
+          h3 请上传完整的项目文件
+            span 【交付稿件为初稿】
+          ul
+            li(v-for="work in works")
+        p 注：请务必上传与雇主要求相应的项目文件
+        p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
+        .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[0] ? '已提交文件' : '提交文件'}}
+        &nbsp;
+        .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[0]") 上传附件
+          upload(type="resource")
+
+        hr
+
+        .asd(v-if="order.modify_works[0]")
+          h3 雇主发起了改稿，请您及时修改并提交文件
+          p 房间做简欧吊顶
+          p 房间做简欧吊顶
+          p 房间做简欧吊顶
+          .upload_file
+            .file_name 附件
+            .uoloadbtn(@click='') 下载附件
+        .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
+        hr
+      .first(v-if="order.deliver_works[1]")
+        .works_project_files
+          h3 请上传完整的项目文件
+            span 【交付稿件为一改】
+          ul
+            li(v-for="work in works")
+        p 注：请务必上传与雇主要求相应的项目文件
+        p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
+        .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[1] ? '已提交文件' : '提交文件'}}
+        &nbsp;
+        .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[1]") 上传附件
+          upload(type="resource")
+
+        hr
+
+        .asd(v-if="order.modify_works[1]")
+          h3 雇主发起了改稿，请您及时修改并提交文件
+          p 房间做简欧吊顶
+          p 房间做简欧吊顶
+          p 房间做简欧吊顶
+          .upload_file
+            .file_name 附件
+            .uoloadbtn(@click='') 下载附件
+        .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
+        hr
+      .first(v-if="order.deliver_works[2]")
+        .works_project_files
+          h3 请上传完整的项目文件
+            span 【交付稿件为二改】
+          ul
+            li(v-for="work in works")
+        p 注：请务必上传与雇主要求相应的项目文件
+        p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
+        .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[2] ? '已提交文件' : '提交文件'}}
+        &nbsp;
+        .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[2]") 上传附件
+          upload(type="resource")
+
+        hr
+
+        .asd(v-if="order.modify_works[2]")
+          h3 雇主发起了改稿，请您及时修改并提交文件
+          p 房间做简欧吊顶
+          p 房间做简欧吊顶
+          p 房间做简欧吊顶
+          .upload_file
+            .file_name 附件
+            .uoloadbtn(@click='') 下载附件
+        .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
+        hr
+  .jobs-container.clear(v-if="false")
     upload(type="deliveries", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container
       .first
@@ -55,9 +124,10 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
           a(@click="uploadWork('third')") 上传
         .clear.time {{order.works[2].created_on}} 提交
   .mt-60
+dfooter
 </template>
 <script>
-import {Vue, dheader} from 'src/assets/js/page';
+import {Vue, dheader,dfooter} from 'src/assets/js/page';
 import api from 'src/assets/js/api';
 import orderdetail from 'src/page/components/order-detail/order-detail';
 import modal from 'src/public/modal/modal';
@@ -70,42 +140,19 @@ import leavemessage from 'src/page/components/leave-message/leave-message';
 export default {
     mixins: [mixins],
     components: {
+      dfooter,
         dheader,
         orderdetail,
         upload,
         modal,
         leavemessage
     },
+    ready(){
+      console.log(this)
+    },
     events: {
         uploadComplete(ret) {
             let data = ret.data;
-            let subtype = ret.subtype;
-            let fname = ret.fname;
-            let rData = this.order.works;
-            if (!rData.length) {
-              rData = this.defaultWorks;
-            }
-            data.name = fname;
-            switch(subtype) {
-                case 'first':
-                    this.first_name = fname;
-                    rData[0] = data;
-                break;
-                case 'second':
-                    this.second_name = fname;
-                    rData[1] = data;
-                break;
-                case 'third':
-                    this.third_name = fname;
-                    rData[2] = data;
-                break;
-            };
-            api.patch({
-                url: constant.API.ORDERS + this.oid,
-                data: {
-                  works: rData
-                }
-            }).done(()=>this.reloadAsyncData());
         }
     },
     asyncData(resolve) {
@@ -159,8 +206,7 @@ export default {
                 data
             });
         },
-        uploadWork(subtype) {
-            this.subtype = subtype;
+        uploadWork() {
             $('#upload').click();
         },
          // 打开留言记录
@@ -283,9 +329,126 @@ export default {
     float: none;
     line-height: 54px;
   }
-  .description {
+   .description {
+     display: flex;
     background: #f4f4f4;
     overflow: hidden;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    .l {
+      width: 330px;
+      padding-left: 66px;
+      box-sizing: border-box;
+      .avatar{
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        margin: 0;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .name {
+        padding-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .exp {
+        padding-top: 10px;
+        color: #919191;
+        font-size: 12px;
+      }
+      .type {
+        padding-top: 10px;
+        color: #4495f7;
+        font-size: 12px;
+      }
+      .tel-check {
+        padding-top: 20px;
+        a {
+          display: block;
+          width: 43px;
+          height: 43px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        span {
+          font-size: 24px;
+          color: #4195f7;
+          font-weight: bold;
+        }
+      }
+      >p {
+        font-size: 14px;
+      }
+    }
+    .r {
+      flex: 1;
+      .works_project_files {
+        h3 {
+          font-size: 16px;
+          span {
+            color: #4195f7;
+          }
+        }
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+          li {
+            width: 121px;
+            height: 92px;
+            border: 1px solid #000;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+      textarea {
+        width: 100%;
+        min-height: 100px;
+      }
+      .upload_file {
+        display: flex;
+        align-items: center;
+        p {
+          font-size: 16px;
+          color: #919191;
+        }
+        .file_name {
+          color: #777777;
+          font-size: 12px;
+          width: 260px;
+          height: 35px;
+          line-height: 35px;
+          padding-left: 10px;
+          box-sizing: border-box;
+          border: 1px solid #a0a0a0;
+          background-color: #f0f0f0;
+        }
+        .uoloadbtn {
+          margin-left: 20px;
+          width: 112px;
+          height: 35px;
+          color: #fff;
+          background-color: #4195f7;
+          text-align: center;
+          line-height: 35px;
+        }
+      }
+      .sendRevise {
+        margin-top: 20px;
+        width: 172px;
+        height: 35px;
+        text-align: center;
+        line-height: 35px;
+        color: #fff;
+        background-color: #4195f7;
+      }
+    }
   }
   .desc {
     height: 130px;

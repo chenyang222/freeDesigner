@@ -307,7 +307,9 @@ export default {
                     })
                   )
                 ]).then(()=>{
-                  window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  setTimeout(() => {
+                    window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  }, 2000);
                 })
               } else {
                 Promise.all([
@@ -320,7 +322,9 @@ export default {
                     })
                   })
                 ]).then(()=>{
-                  window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  setTimeout(() => {
+                    window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  }, 2000);
                 })
               }
             })

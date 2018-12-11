@@ -38,10 +38,10 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
       hr
       .upload_file
         p 上传改稿所需附件
-        .file_name 请上传附件
+        .file_name {{reviseFile[0] || '请上传附件'}}
         .uoloadbtn(@click='uploadZip') 上传附件
           upload(type="resource")
-      .sendRevise 发起改稿
+      .sendRevise(@click="handleRevise") 发起改稿
       hr
       textarea.revise(placeholder="请在此处编辑对工作者的评价", v-model="evaluateVal")
       .sendRevise 确定完成
@@ -122,6 +122,12 @@ export default {
         dfooter,
         orderUserInfo
     },
+    events: {
+      uploadComplete(resp) {
+        let data = resp.data[0]
+        this.reviseFile = data
+      },
+    },
     asyncData(resolve) {
         let self = this;
         this.fetch().done(function() {
@@ -189,6 +195,20 @@ export default {
         },
     },
     methods: {
+      handleRevise(){
+        const self = this
+        api.post({
+          url:`/api/orders/${this.data.id}/modify_works/`,
+          data:{
+            work:this.reviseFile[2],
+            desc:this.reviseVal
+          }
+        }).done(function(){
+          self.reviseFile = {}
+          self.reviseVal = ''
+          alert('发起改稿成功')
+        })
+      },
       uploadZip() {
           $('#upload').click();
       },
@@ -287,6 +307,7 @@ export default {
         let url = constant.API.ORDERS + id;
 
         return {
+            reviseFile:{},
             reviseVal:'',
             evaluateVal:'',
             currentApplyRecords:{},

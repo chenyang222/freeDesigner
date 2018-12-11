@@ -161,7 +161,7 @@ export default {
   padding-left: 30px;
   padding-top: @profilePaddingTop;
   height: 348px;
-  background: #999;
+  background: url('./bgline.png') repeat-x;
   color: #999;
   .detail {
     padding-left: 60px;

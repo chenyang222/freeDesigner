@@ -2,7 +2,7 @@
 ul.tab.fl.mt-150(__vuec__)
   li.profile
     a(href="{{profileURL}}") 基本信息
-  li.gallery
+  li.space
     a(href="{{spaceURL}}") 个人空间
   li.account
     a(href="{{accountURL}}") 账户安全
@@ -16,6 +16,7 @@ import constant from 'src/assets/js/constant';
 export default {
     ready() {
         let pathname = constant.URL.PATH_NAME;
+        console.info(pathname)
         pathname = pathname.split('/');
         pathname = pathname[pathname.length - 1];
         pathname = pathname.replace('.html', '');
@@ -46,16 +47,17 @@ export default {
     line-height: 60px;
     &.active {
       a {
-        color: #fff;
+        color: #4495f7;
+        border-bottom: 1px solid #4495f7;
       }
-      background: url(./arrow.png) right no-repeat;
+      background: url(./arrow-blue.png) 120px no-repeat;
     }
     a {
       padding: 20px;
       border-bottom: 1px solid #333;
       text-align: center;
       width: 120px;
-      color: #333;
+      color: #919191;
       &.last {
         border-bottom: 0;
       }

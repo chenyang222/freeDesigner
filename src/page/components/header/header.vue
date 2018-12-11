@@ -129,7 +129,7 @@ export default {
           color: #919191;
           opacity: .8;
           &:hover {
-              color: #fff;
+              color: #4495f7;
               opacity: 1;
           }
       }

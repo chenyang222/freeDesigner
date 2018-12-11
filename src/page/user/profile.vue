@@ -10,7 +10,7 @@ dheader
         a(@click="configAvatar") 设置头像
         cutimg(:maxsize="maxsize")
       .prompt.mt-30 JPG或PNG格式，不超过800K
-    div.mt-30(style="border-top:1px solid #cccccc;border-bottom:1px solid #cccccc;padding:15px 0")
+    div.mt-30(style="border-top:2px solid #cccccc;border-bottom:2px solid #cccccc;padding:15px 0;font-size:12px")
       span(style="margin:0px 10px")
         b 资产情况：
       span(style="margin:0px 10px") 可用积分：{{userinfo.available_points}}
@@ -19,7 +19,7 @@ dheader
     textarea.desc.mt-30(placeholder="您的简介", v-model="desc")
     .professional.mt-20
       .title 请选择承接业务类型（请最多选择三个技能）
-      ul.roles.mt-20
+      ul.roles
         li(v-for="_role in allRoles",
         @click="selecteRole",
         :class="{active: role.indexOf(_role) !== -1 }") {{_role}}
@@ -185,7 +185,7 @@ export default {
   padding-left: 30px;
   padding-top: @profilePaddingTop;
   height: 348px;
-  background: #999;
+  background: url('./bgline.png') repeat-x;
   color: #999;
   .detail {
     padding-left: 60px;
@@ -206,23 +206,14 @@ export default {
       text-align: center;
     }
     .avatar {
-      width: 168px;
-      height: 168px;
-      position: relative;
+      width: 173px;
+      height: 173px;
       overflow:hidden;
       img {
-        height: 101%;
-        width: 102%;
-        position: absolute;
-        left: 0;
-        margin: -1px;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
       }
-      border-radius: 89px;
-      background: #eee;
-      color: #fff;
-      text-align: center;
-      line-height: 168px;
-      font-size: 120px;
     }
     .prompt{
       text-align: center;
@@ -232,9 +223,12 @@ export default {
     .save {
       width: 82px;
     }
+    .name{
+        height: 41px;
+    }
     .name,
     .desc {
-      background: #eee;
+    //   background: #eee;
       width: 100%;
     }
     .desc {
@@ -242,19 +236,19 @@ export default {
     }
     .professional {
       .title {
-        font-size: 1.6rem;
-        text-align: center;
+        font-size: 14px;
       }
       .roles {
+        margin-left: -11px;
         li {
           float: left;
           cursor: pointer;
-          width: 100px;
-          font-size: 1.8rem;
+          width: 80px;
+          font-size: 14px;
           border: 1px solid #999;
           border-radius: 10px;
-          margin-left: 20px;
-          margin-top: 20px;
+          margin-left: 11px;
+          margin-top: 12px;
           text-align: center;
           &.active {
             border: 1px solid @cyan;

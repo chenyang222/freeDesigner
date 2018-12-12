@@ -10,15 +10,15 @@
             </div>
             <div class="info">
               <div class="item-header">
-                <div class="title">&nbsp;{{info.user.name}}</div>
-                <div class="integral">议价：{{info.apply_cost}}积分</div>
+                <div class="title">{{info.user.name}}</div>
               </div>
               <div>
-                <div class="exp">&nbsp;{{info.user.career}}年工作经验</div>
+                <div class="exp">{{info.user.career}}年工作经验</div>
               </div>
               <div class="skill">
-                {{info.user.role | filterRole}}
+                {{info.user.role}}
               </div>
+              <div class="integral">议价：{{info.apply_cost}}积分</div>
             </div>
           </div>
           <div class="explain">
@@ -32,9 +32,11 @@
           </div>
           <div class="paper-main">
             <div class="item" v-for="item in userQuestionList">
-              <h4>第{{ $index + 1 }}题：{{ item.order_question.question }}</h4>
-              <div class="time">
-                <img src="./ico_time.png" alt="">【{{ showAnswerTime(item.start_time, item.end_time) }}】
+              <div class="headerrrrrrrr">
+                <h4>第{{ $index + 1 }}题：{{ item.order_question.question }}</h4>
+                <div class="time">
+                  <img src="./ico_time.png" alt="">【{{ showAnswerTime(item.start_time, item.end_time) }}】
+                </div>
               </div>
               <p>{{ item.answer }}</p>
             </div>
@@ -43,6 +45,7 @@
         <div class="tel-check">
           <h3>电话考核</h3>
           <a :href="`tel:${info.user.mobile}`"><img src="./images/ico_tel.png" alt=""></a>
+          <p>{{info.user.mobile}}</p>
         </div>
         <div class="footersss">
           <h4 class="total-price">服务总价：{{detail.pub_cost + detail.apply_cost + detail.system_cost}}积分</h4>
@@ -144,16 +147,15 @@ export default {
   background-color: rgba(0, 0, 0, 0.2);
 
   .mains {
-    transform: scale(0.8);
     margin: 0 auto;
-    margin-top: -80px;
-    width: 800px;
+    margin-top: 160px;
+    width: 892px;
     padding-bottom: 100px;
-    background-color: #f0f0f0;
+    background-color: #fff;
 
     .close {
       position: absolute;
-      right: -200px;
+      right: 0;
       top: 0;
       font-size: 100px;
       z-index: 999999;
@@ -164,14 +166,13 @@ export default {
     }
 
     .main-header {
-      padding-top: 44px;
-      padding-bottom: 44px;
-      border-bottom: 10px solid #fff;
+      display: flex;
+      padding: 60px 100px;
       .user-info {
         display: flex;
         .avatarssss {
-          width: 120px;
-          height: 120px;
+          width: 85px;
+          height: 85px;
           border-radius: 50%;
           overflow: hidden;
           img {
@@ -189,30 +190,39 @@ export default {
               justify-content: space-between;
             }
             &.skill {
-              font-size: 22px;
-              font-weight: bold;
+              color: #4495f7;
+              font-size: 14px;
             }
             .title {
+              font-size: 19px;
               font-weight: bold;
             }
-            .integral {
+            &.integral {
               font-weight: bold;
-              color: #ff0000;
+              font-size: 14px;
+              color: #4195f7;
             }
             .exp {
+              font-size: 14px;
               color: #808080;
             }
           }
         }
       }
       .explain {
-        margin-top: 28px;
+        flex: 1;
+        margin-left: 40px;
         h3 {
-          font-size: 30px;
+          margin: 0;
+          font-size: 16px;
         }
         p {
-          font-size: 22px;
-          margin-top: 24px;
+          margin: 0;
+          word-break: break-all;
+          word-wrap:break-word;
+          margin-top: 16px;
+          font-size: 14px;
+          color: #919191;
         }
       }
     }
@@ -253,67 +263,84 @@ export default {
       padding-bottom: 50px;
       background-color: #fff;
       .paper-header {
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+        padding-left: 100px;
+        font-size: 16px;
         font-weight: bold;
-        font-size: 30px;
-        padding: 20px 75px;
-        background-color: #f0f0f0;
         span{
-          color: #808080;
+          font-weight: normal;
+          font-size: 16px;
+          color: #777777;
         }
       }
       .paper-main {
-        padding: 0 75px;
+      padding-left: 100px;
         .item {
           margin-top: 40px;
+          .headerrrrrrrr {
+            display: flex;
+            justify-content: space-between;
+          }
           h4 {
-            font-size: 22px;
+            margin: 0;
+            font-size: 14px;
             font-weight: bold;
           }
           .time {
-            margin-top: 50px;
-            font-size: 24px;
-            color: #ff0000;
+            font-size: 14px;
+            color: #4195f7;
             img {
-              width: 55px;
-              height: 55px;
+              width: 20px;
+              height: 20px;
             }
           }
           p {
-            padding-left: 68px;
+            color: #777777;
+            font-size: 14px;
           }
         }
       }
     }
 
     .tel-check {
+      padding-left: 100px;
+        border-top: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
       text-align: center;
       h3 {
-        font-size: 28px;
+      text-align: left;
+
+        font-size: 16px;
         font-weight: bold;
-        margin: 40px 0;
+        margin: 10px 0;
       }
       img {
-        width: 97px;
-        height: 97px;
-        margin-bottom: 40px;
+        width: 43px;
+        height: 43px;
+        margin-bottom: 10px;
+      }
+      p {
+        margin: 0;
+        font-size: 24px;
+        color: #4195f7;
       }
     }
 
     .footersss {
       text-align: center;
       padding: 0;
-      padding-top: 60px;
+      padding-top: 30px;
       padding-bottom: 60px;
-      margin-bottom: 40px;
       background-color: #fff;
 
       .total-price {
-        font-size: 34px;
+        font-size: 18px;
         color: #4195f7;
       }
       .price-info {
         margin-top: 14px;
-        font-size: 16px;
+        font-size: 12px;
         color: #4195f7;
       }
       .submit {
@@ -321,7 +348,7 @@ export default {
         display: inline-block;
         font-size: 30px;
         color: #fff;
-        padding: 20px 118px;
+        padding: 10px 70px;
         background-color: #4195f7;
       }
       .agree {

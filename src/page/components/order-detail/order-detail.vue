@@ -33,8 +33,10 @@
     .project-desc.container
       .label.border.mt-20 项目描述
       .desc {{order.desc}}
-      .label.border-top 项目相关资料下载
-        a.ml-20.cyan(:href="order.extra_resource", target="_new;") {{order.extra_resource_name}}
+      .label.border-top 项目相关资料
+      div(style="display: flex;align-items: center;" v-for="item in order.files")
+        div(style="flex: 1;height: 40px;border: 1px solid #b1b1b1;background: #d6d6d6;border-radius: 10px;color: #7f7f7f;font-size: 14px;line-height: 40px;padding-left: 10px;") item.filename
+        a(style="display: block;width: 120px;height: 40px;line-height: 40px;color: #fff;background: #4195f7;border-radius: 6px;text-align: center;margin-left: 10px;", :href="item.file_path", target="_new;") 下载
       .clear
 </template>
 <script>
@@ -151,7 +153,7 @@ export default {
     }
   }
   .description {
-    // background: #f4f4f4;
+    background: #fff !important;
     overflow: hidden;
     .desc {
       height: 130px;

@@ -73,6 +73,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
     div(v-if="order.apply_records.length !== 0")
       thead
         th.applier 接单人
+        th.applier 竞标描述
         th.action 操作
         th.similar 同类案例
         th.challenge 议价
@@ -89,6 +90,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
                   .exp  {{record.user.career}}年工作经验
                 .skill
                   | {{record.user.role}}
+        td(style="font-size:12px;color:#919191;") {{record.desc || '未填写'}}
         td
           .btn.w-100(style="margin:auto")
             a(@click="showUserInfo(record)") 查看详情
@@ -599,7 +601,6 @@ export default {
     }
     th {
       &.applier {
-        width: 40%;
       }
       &.similar {
 
@@ -615,18 +616,19 @@ export default {
       .item {
       display: flex;
       justify-content: center;
+      align-items: center;
       .avatar {
-        width: 120px;
-        height: 120px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         overflow: hidden;
+        margin: 0 !important;
         img {
           width: 100%;
           height: 100%;
         }
       }
       .info {
-        flex: 1;
         margin-left: 25px;
         >div {
           display: flex;
@@ -639,6 +641,7 @@ export default {
             font-weight: bold;
           }
           .title {
+            font-size: 16px;
             font-weight: bold;
           }
           .integral {
@@ -646,6 +649,7 @@ export default {
             color: #ff0000;
           }
           .exp {
+            font-size: 12px;
             color: #808080;
           }
         }

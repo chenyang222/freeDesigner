@@ -307,7 +307,10 @@ export default {
             user: {},
             type, // 当前记录是否是编辑状态
             order: {
-                dynamic_info: {}
+              dynamic_info: {},
+              user:{
+
+              }
             },
             desc: '',
             works: [],
@@ -327,7 +330,9 @@ export default {
             answerList: [],
             overAnswer: false,
             showMore: false,
-            res: 0
+            res: 0,
+            score: '',
+            comments: ''
         };
     }
 }

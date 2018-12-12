@@ -9,6 +9,7 @@ div.sort
       select.fl.ml-20(@change="searchCate")
         option(value="All") 全部
         option(v-for="opt in cates", value="{{opt}}") {{opt}}
+gallerydetail(v-if="isShowDetail", :detail='detailProp')
 .wrap-inner(__vuec__)
   .content
     ol.gallerys
@@ -37,10 +38,12 @@ text="你确认要删除相册吗？", subtext="在首页、个人作品展示�
   header(slot="header") 删除提醒
 </template>
 <script>
+import {Vue} from 'src/assets/js/page';
 import constant from '/src/assets/js/constant';
 import api from '/src/assets/js/api';
 import utils from '/src/assets/js/utils';
-import overlay from '/src/page/components/gallery-overlay/overlay';
+// import overlay from '/src/page/components/gallery-overlay/overlay';
+import gallerydetail from '/src/page/components/gallery-detail/gallery-detail';
 import uploadwork from '/src/page/components/upload-work/upload-work';
 import paginator from 'src/public/paginator/paginator';
 import $ from 'jquery';
@@ -49,7 +52,8 @@ import modal from 'src/public/modal/modal';
 export default {
     props: ['uid', 'type'],
     components: {
-        overlay,
+        // overlay,
+        gallerydetail,
         uploadwork,
         paginator,
         modal
@@ -119,10 +123,16 @@ export default {
          // 父组件向子组件派发请求
         // 弹出相册遮罩，展示详细展开包的信息，和更多相册信息
         showOverlay (gallery) {
-            this.$broadcast('changeGallery', {
-                data: gallery,
-                showModal: true
-            });
+            // this.$broadcast('changeGallery', {
+            //     data: gallery,
+            //     showModal: true
+            // });
+            this.isShowDetail = true;
+            this.detailProp = gallery;
+        },
+        closeGallery () {
+            this.isShowDetail = false;
+            this.detailProp = {};
         },
         // 切换排序
         changeSort (e) {
@@ -158,6 +168,9 @@ export default {
             let el = e.target;
             let $el = $(el);
             $el.find('.edit-bar').hide();
+        },
+        changePage(page) {
+          Vue.set(this.query, 'page', page);
         }
     },
     data () {
@@ -174,7 +187,9 @@ export default {
             deleteModalCSS: {
                 width: 420,
                 height: 200
-            }
+            },
+            detailProp: {},
+            isShowDetail: false
         };
     }
 };

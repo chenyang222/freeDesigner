@@ -25,9 +25,9 @@ modal.addGallery(:show.sync="showModal", :css="{width: 640, height: 600}")
       label 设计理念
       textarea.desc.ml-20(v-model="concept", placeholder="请描述您作品的设计理念")
     .mt-20
-      label 上传作品
-      a(:href="download_url", @click="uploadWork") {{fname || '点击上传'}}
-      upload(type="resource", id="upload2")
+      a(href="javascript:;", @click="uploadWork" class="uploadWork btn") 点击上传
+      a(href="javascript:;") {{ fname }}
+      upload(type="work", maxsize="2*1024", class="upload")
   div(slot="footer")
     .btn.mr-20.fr
       a(v-if="type === 'create'", @click="createGallery") 确定
@@ -43,7 +43,7 @@ modal.addGallery(:show.sync="showModal", :css="{width: 640, height: 600}")
           a.active {{name}}
         .fl.ml-10 的个人空间
         .fr.addWork.btn
-          a(@click="showModal = true") 新建相册
+          a(@click="showModal = true") 添加作品
     .clear
     // 用户自己的个人空间
     gallery(:uid="id", :type="type")
@@ -75,54 +75,54 @@ export default {
     events: {
         // 获取分类
         getCates(scates) {
-            this.scates = scates;
+          this.scates = scates;
         },
         // 编辑相册
         editGallery(gallery) {
-            this.type = 'patch';
-            this.gname = gallery.name;
-            this.scate = gallery.scate;
-            this.gdesc = gallery.desc;
-            this.showModal = true;
-            this.download_url = gallery.download_url;
-            this.concept = gallery.concept;
-            this.gid = gallery.id;
-            this.fname = gallery.fname;
+          this.type = 'patch';
+          this.gname = gallery.name;
+          this.scate = gallery.scate;
+          this.gdesc = gallery.desc;
+          this.showModal = true;
+          this.download_url = gallery.download_url;
+          this.concept = gallery.concept;
+          this.gid = gallery.id;
+          this.fname = gallery.fname;
         },
         uploadComplete(ret){
-            this.download_url = ret.data.lname;
-            this.fname = ret.fname;
+          this.download_url = ret.data[0][1];
+          this.fname = ret.fname;
         }
     },
     methods: {
         uploadWork() {
-            document.getElementById('upload2').click();
+          $('#upload').click();
         },
         // 创建相册还是编辑相册
         createGallery() {
-            let url = constant.API.USER_GALLERY;
-            if (!this.gname) return;
-            if (this.cate === 'all') return;
-            let data = {
-                name: this.gname,
-                scate: this.scate,
-                desc: this.gdesc,
-                download_url: this.download_url,
-                concept: this.concept,
-                fname: this.fname
-            }
-            let ajax = api.post;
-            if (this.type === 'patch') {
-                ajax = api.patch;
-                url += this.gid + '/';
-            }
-            ajax({
-                url,
-                data
-            }).done(() => {
-                this.showModal = false;
-                this.$broadcast('createGallery', true);
-            });
+          let url = constant.API.USER_GALLERY;
+          if (!this.gname) return;
+          if (this.cate === 'all') return;
+          let data = {
+            name: this.gname,
+            scate: this.scate,
+            desc: this.gdesc,
+            download_url: this.download_url,
+            concept: this.concept,
+            fname: this.fname
+          }
+          let ajax = api.post;
+          if (this.type === 'patch') {
+              ajax = api.patch;
+              url += this.gid + '/';
+          }
+          ajax({
+              url,
+              data
+          }).done(() => {
+              this.showModal = false;
+              this.$broadcast('createGallery', true);
+          });
         }
     },
     data () {
@@ -145,7 +145,23 @@ export default {
             type: 'create', // new: 创建新的相册， add: 添加新的作品,  none: overlay;
             fname: '',
             download_url: '',
-            concept: ''
+            concept: '',
+            province: '',
+            available_cash_points: '',
+            city: '',
+            is_recommend: '',
+            available_points: '',
+            audit_status: '',
+            download_count: '',
+            career: '',
+            license_pic: '',
+            id: '',
+            mobile: '',
+            apply_count: '',
+            paied_points: '',
+            license_id: '',
+            gallery_count: '',
+            remaining: ''
         };
     }
 };
@@ -177,6 +193,10 @@ export default {
     .desc {
       height: 50px;
       line-height: 50px;
+      font-size: 12px;
+      a{
+        font-size: 12px;
+      }
     }
     .avatar {
       width: 50px;
@@ -200,6 +220,19 @@ export default {
     }
   }
 }
+.addWork{
+  width: 84px;
+  height: 42px;
+  a{
+    font-size: 16px !important;
+  }
+}
+select{
+  color: #999;
+}
+.upload{
+  display: none;
+}
 .addGallery {
   label {
     font-size: 14px;
@@ -218,5 +251,15 @@ export default {
 }
 .modal-container {
   overflow: hidden;
+}
+.uploadWork{
+  width: 104px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  color: #ffffff;
+  margin-left: 100px;
+  display: inline-block;
+  margin-right: 5px;
 }
 </style>

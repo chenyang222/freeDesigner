@@ -169,7 +169,22 @@ export default {
               uid: uid,
               page: 1,
               per_page: 100
-            }
+            },
+            province: '',
+            available_cash_points: '',
+            city: '',
+            is_recommend: '',
+            available_points: '',
+            audit_status: '',
+            download_count: '',
+            career: '',
+            license_pic: '',
+            mobile: '',
+            apply_count: '',
+            paied_points: '',
+            license_id: '',
+            gallery_count: '',
+            remaining: ''
         };
     }
 };

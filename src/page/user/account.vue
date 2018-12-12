@@ -110,7 +110,23 @@ export default {
             ids: {
               id: id,
               uid: uid
-            }
+            },
+            province: '',
+            available_cash_points: '',
+            city: '',
+            is_recommend: '',
+            available_points: '',
+            audit_status: '',
+            download_count: '',
+            career: '',
+            license_pic: '',
+            mobile: '',
+            apply_count: '',
+            paied_points: '',
+            license_id: '',
+            gallery_count: '',
+            remaining: '',
+            userImg: ''
         };
     }
 };

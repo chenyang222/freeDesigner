@@ -276,6 +276,7 @@ export default {
       }
       .paper-main {
       padding-left: 100px;
+      padding-right: 100px;
         .item {
           margin-top: 40px;
           .headerrrrrrrr {

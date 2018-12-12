@@ -11,7 +11,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
   div(slot="footer")
 .wrap(__vuec__)
   orderdetail(:otitle="otitle", :order="order")
-  .description
+  .description(v-if="showConfirmed")
     .l
       .avatar
         img(:src="order.applier.avatar")
@@ -28,14 +28,14 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         .works_project_files
           h3 请上传完整的项目文件
             span 【交付稿件为初稿】
-          ul
-            li(v-for="work in works")
+          div(v-if="order.deliver_works[0] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[0] || curFail[0]}}
+          div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
         p 注：请务必上传与雇主要求相应的项目文件
         p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
-        .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[0] ? '已提交文件' : '提交文件'}}
+        .sendRevise(@click="submit('one')", style="display:inline-block;") 提交文件
         &nbsp;
-        .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[0]") 上传附件
-          upload(type="resource")
+        .sendRevise(@click='uploadWork("one")', style="display:inline-block;") 上传附件
+          upload(type="deliveries")
 
         hr
 
@@ -60,7 +60,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[1] ? '已提交文件' : '提交文件'}}
         &nbsp;
         .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[1]") 上传附件
-          upload(type="resource")
+          upload(type="deliveries")
 
         hr
 
@@ -85,7 +85,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[2] ? '已提交文件' : '提交文件'}}
         &nbsp;
         .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[2]") 上传附件
-          upload(type="resource")
+          upload(type="deliveries")
 
         hr
 
@@ -152,7 +152,10 @@ export default {
     },
     events: {
         uploadComplete(ret) {
-            let data = ret.data;
+          let data = ret.data[0];
+          if(this.curType === 'one'){//初稿
+            this.curFail = data
+          }
         }
     },
     asyncData(resolve) {
@@ -181,6 +184,9 @@ export default {
         showjobs() {
             return this.order.status <= constant.ORDER.CONFIRMED;
         },
+        showConfirmed(){
+          return this.order.status > 0 && this.order.status <= 80;
+        },
         showSecondUpload() {
             return this.order.status <= constant.ORDER.FIRST_MODIFY;
         },
@@ -189,6 +195,18 @@ export default {
         }
     },
     methods: {
+      submit(type){
+        if(type === 'one'){//初稿
+          api.patch({
+            url:`/api/orders/${this.order.id}/`,
+            data:{
+              deliver_works:[this.curFail[2]]
+            }
+          }).done(function(){
+            console.log(this)
+          })
+        }
+      },
         fetch() {
             return api.get({
                 url: this.url
@@ -206,7 +224,8 @@ export default {
                 data
             });
         },
-        uploadWork() {
+        uploadWork(type) {
+          this.curType = type
             $('#upload').click();
         },
          // 打开留言记录
@@ -221,6 +240,8 @@ export default {
         let commentURL = constant.API.APPLY_RECORDS + aid + constant.API.ORDER_COMMENTS;
 
         return {
+            curType:'',
+            curFail:'',
             url,
             commentURL,
             id: '',

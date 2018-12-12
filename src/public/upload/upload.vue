@@ -30,10 +30,10 @@ export default {
             switch (this.type) {
                 case 'avatar':
                 case 'work':
-                case 'deliveries':
                 case 'order_work':
                 accept = 'image/png, image/jpeg, image/jpg, image/gif'
                 break
+                case 'deliveries':
                 case 'resource':
                 accept = '*'
                 break
@@ -75,7 +75,7 @@ export default {
             }
             let fd = new FormData();
             fd.append('content', file);
-            fd.append('type', this.type);
+            fd.append('ftype', this.type);
             let xhr = new XMLHttpRequest();
             xhr.upload.addEventListener('progress', this.onUploadProgress);
             xhr.addEventListener('load', this.onUploadComplete);

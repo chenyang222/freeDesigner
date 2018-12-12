@@ -12,9 +12,9 @@ header.header(__vuec__)
           li(:class="{active: pathname === ORDER_DEMAND}")
             a(href="{{ORDER_DEMAND}}") 需求池
           li(:class="{active: pathname === ORDER_PUB_MANAGEMENT}")
-            a(href="{{ORDER_PUB_MANAGEMENT}}") 发单管理
+            a(href="{{ORDER_PUB_MANAGEMENT}}") 我是雇主
           li(:class="{active: pathname === ORDER_APPLY_MANAGEMENT}")
-            a(href="{{ORDER_APPLY_MANAGEMENT}}") 接单管理
+            a(href="{{ORDER_APPLY_MANAGEMENT}}") 我是工作者
           li(:class="{active: pathname === ORDER_INTEGRAL}")
             a(href="{{ORDER_INTEGRAL}}") 积分购买
           li

@@ -24,10 +24,10 @@ modal.addGallery(:show.sync="showModal", :css="{width: 640, height: 600}")
     .mt-20
       label 设计理念
       textarea.desc.ml-20(v-model="concept", placeholder="请描述您作品的设计理念")
-    .mt-20
-      a(href="javascript:;", @click="uploadWork" class="uploadWork btn") 点击上传
-      a(href="javascript:;") {{ fname }}
-      upload(type="work", maxsize="2*1024", class="upload")
+    //- .mt-20
+      //- a(href="javascript:;", @click="uploadWork" class="uploadWork btn") 点击上传
+      //- a(href="javascript:;") {{ fname }}
+      //- upload(type="work", maxsize="2*1024", class="upload")
   div(slot="footer")
     .btn.mr-20.fr
       a(v-if="type === 'create'", @click="createGallery") 确定

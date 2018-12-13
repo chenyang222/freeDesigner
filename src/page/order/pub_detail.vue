@@ -25,26 +25,80 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
         span {{order.applier.mobile}}
       p 注：工作者交付稿件后五个工作日雇主未发起改稿，系统默认为订单交易结束并完成支付。
     .r
-      .works_project_files
-        h3 工作者提交的项目文件
-          span 【交付稿件为初稿】
-        ul
-          li
-            img
-      hr
-      p 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
-      hr
-      textarea.revise(placeholder="请在此处编辑改稿内容", v-model="reviseVal")
-      hr
-      .upload_file
-        p 上传改稿所需附件
-        .file_name {{reviseFile[0] || '请上传附件'}}
-        .uoloadbtn(@click='uploadZip') 上传附件
-          upload(type="resource")
-      .sendRevise(@click="handleRevise") 发起改稿
-      hr
+      div
+        .works_project_files
+          h3 工作者提交的项目文件
+            span 【交付稿件为初稿】
+          .upload_file
+            .file_name(v-if="order.deliver_works[0]") {{order.deliver_works[0].filename}}
+            .file_name(v-else) 工作者还未上传项目文件
+            a.uoloadbtn(:href="order.deliver_works[0].file_path", target="_new;") 下载附件
+          //- div(v-if="order.deliver_works[0]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[0].filename}}
+          //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 
+        hr
+        p 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
+        hr
+        div(v-if="order.deliver_works[0]")
+          textarea.revise(v-if="order.deliver_works[0] && !order.modify_works",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
+          div(v-else, style="height:150px;border:1px solid #000;") {{order.modify_works[0].desc}}
+          .upload_file
+            p(v-if="order.deliver_works[0] && !order.modify_works") 上传改稿所需附件
+            .file_name(v-if="order.deliver_works[0] && !order.modify_works") {{reviseFile[0] || '请上传附件'}}
+            .file_name(v-else) {{order.modify_works[0].filename}}
+            .uoloadbtn(@click='uploadZip', v-if="order.deliver_works[0] && !order.modify_works") 上传附件
+              upload(type="resource")
+          .sendRevise(@click="handleRevise" v-if="order.deliver_works[0] && !order.modify_works") 发起改稿
+        hr
+      div(v-if="order.deliver_works[1]")
+        .works_project_files
+          h3 工作者提交的项目文件
+            span 【交付稿件为一改】
+          .upload_file
+            .file_name(v-if="order.deliver_works[1]") {{order.deliver_works[1].filename}}
+            .file_name(v-else) 工作者还未上传项目文件
+            a.uoloadbtn(:href="order.deliver_works[1].file_path", target="_new;") 下载附件
+          //- div(v-if="order.deliver_works[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[1].filename}}
+          //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
+        hr
+        p 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
+        hr
+        div
+          textarea.revise(v-if="!order.modify_works[1]",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
+          div(v-else, style="height:150px;border:1px solid #000;") {{order.modify_works[1].desc}}
+          .upload_file
+            p(v-if="!order.modify_works[1]") 上传改稿所需附件
+            .file_name(v-if="!order.modify_works[1]") {{reviseFile[0] || '请上传附件'}}
+            .file_name(v-else) {{order.modify_works[1].filename}}
+            .uoloadbtn(@click='uploadZip', v-if="!order.modify_works[1]") 上传附件
+              upload(type="resource")
+          .sendRevise(@click="handleRevise" v-if="!order.modify_works[1]") 发起改稿
+        hr
+      div(v-if="order.deliver_works[2]")
+        .works_project_files
+          h3 工作者提交的项目文件
+            span 【交付稿件为二改】
+          .upload_file
+            .file_name(v-if="order.deliver_works[2]") {{order.deliver_works[2].filename}}
+            .file_name(v-else) 工作者还未上传项目文件
+            a.uoloadbtn(:href="order.deliver_works[2].file_path", target="_new;") 下载附件
+          //- div(v-if="order.deliver_works[2]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[2].filename}}
+          //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
+        hr
+        p 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
+        hr
+        div
+          textarea.revise(v-if="!order.modify_works[2]",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
+          div(v-else, style="height:150px;border:1px solid #000;") {{order.modify_works[2].desc}}
+          .upload_file
+            p(v-if="!order.modify_works[2]") 上传改稿所需附件
+            .file_name(v-if="!order.modify_works[2]") {{reviseFile[0] || '请上传附件'}}
+            .file_name(v-else) {{order.modify_works[2].filename}}
+            .uoloadbtn(@click='uploadZip', v-if="!order.modify_works[2]") 上传附件
+              upload(type="resource")
+          .sendRevise(@click="handleRevise" v-if="!order.modify_works[2]") 发起改稿
+        hr
       textarea.revise(placeholder="请在此处编辑对工作者的评价", v-model="evaluateVal")
-      .sendRevise 确定完成
+      .sendRevise(@click="submit") 确定完成
   .jobs-container.clear(v-if="false")
     upload(type="*", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container
@@ -228,12 +282,20 @@ export default {
             });
         },
         submit() {
-            api.patch({
-                url: this.url,
-                data: {
-                    status: 0
-                }
-            }).done(()=> this.reloadAsyncData());
+          const id = this.order.id
+          const evaluateVal = this.evaluateVal
+          api.post({
+            url:`/api/orders/${id}/finish_orders/`
+          }).done(function(){
+            api.post({
+              url:`/api/orders/${id}/review_applier/`,
+              data:{
+                message:evaluateVal
+              }
+            }).done(function(){
+              alert('评价完成！')
+            })
+          })
         },
         // 确认之后对单个确认订单的接单人留言
         // 1. 获取发单人的最后一条留言

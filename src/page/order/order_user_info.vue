@@ -127,7 +127,7 @@ export default {
           price_type: 'all'
         }
       }).done(function(){
-        console.log(111)
+        window.location.reload()
       })
     }
   }

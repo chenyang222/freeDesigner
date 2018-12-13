@@ -28,75 +28,76 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         .works_project_files
           h3 请上传完整的项目文件
             span 【交付稿件为初稿】
-          div(v-if="order.deliver_works[0] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[0] || curFail[0]}}
-          div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
+        .upload_file
+          .file_name(v-if="order.deliver_works[0] || curFail[1]") {{order.deliver_works[0] ? order.deliver_works[0].filename : curFail[0]}}
+          .file_name(v-else) 请上传项目文件
+          .uoloadbtn(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[0]") 上传附件
+            upload(type="deliveries")
         p 注：请务必上传与雇主要求相应的项目文件
         p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
-        .sendRevise(@click="submit('one')", style="display:inline-block;") 提交文件
+        .sendRevise(@click="submit('one')", style="display:inline-block;", v-if="!order.deliver_works[0]") 提交文件
         &nbsp;
-        .sendRevise(@click='uploadWork("one")', style="display:inline-block;") 上传附件
+        //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[0]") 上传附件
           upload(type="deliveries")
-
         hr
-
         .asd(v-if="order.modify_works[0]")
           h3 雇主发起了改稿，请您及时修改并提交文件
-          p 房间做简欧吊顶
-          p 房间做简欧吊顶
-          p 房间做简欧吊顶
+          p {{order.modify_works[0].desc}}
           .upload_file
-            .file_name 附件
-            .uoloadbtn(@click='') 下载附件
+            .file_name {{order.modify_works[0].filename}}
+            a.uoloadbtn(:href="order.modify_works[0].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
-      .first(v-if="order.deliver_works[1]")
+      .first(v-if="order.modify_works[0]")
         .works_project_files
           h3 请上传完整的项目文件
             span 【交付稿件为一改】
-          ul
-            li(v-for="work in works")
+          .upload_file
+            .file_name(v-if="order.deliver_works[1] || curFail[1]") {{order.deliver_works[1] ? order.deliver_works[1].filename : curFail[0]}}
+            .file_name(v-else) 请上传项目文件
+            .uoloadbtn(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[1]") 上传附件
+              upload(type="deliveries")
+          //- div(v-if="order.deliver_works[1] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[1] ? order.deliver_works[1].filename : curFail[0]}}
+          //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
         p 注：请务必上传与雇主要求相应的项目文件
         p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
-        .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[1] ? '已提交文件' : '提交文件'}}
+        .sendRevise(@click="submit('two')", style="display:inline-block;", v-if="!order.deliver_works[1]") 提交文件
         &nbsp;
-        .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[1]") 上传附件
+        //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[1]") 上传附件
           upload(type="deliveries")
-
         hr
-
         .asd(v-if="order.modify_works[1]")
           h3 雇主发起了改稿，请您及时修改并提交文件
-          p 房间做简欧吊顶
-          p 房间做简欧吊顶
-          p 房间做简欧吊顶
+          p {{order.modify_works[1].desc}}
           .upload_file
-            .file_name 附件
-            .uoloadbtn(@click='') 下载附件
+            .file_name {{order.modify_works[1].filename}}
+            a.uoloadbtn(:href="order.modify_works[1].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
-      .first(v-if="order.deliver_works[2]")
+      .first(v-if="order.modify_works[1]")
         .works_project_files
           h3 请上传完整的项目文件
             span 【交付稿件为二改】
-          ul
-            li(v-for="work in works")
+          .upload_file
+            .file_name(v-if="order.deliver_works[2] || curFail[1]") {{order.deliver_works[2] ? order.deliver_works[2].filename : curFail[0]}}
+            .file_name(v-else) 请上传项目文件
+            .uoloadbtn(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[2]") 上传附件
+              upload(type="deliveries")
+          //- div(v-if="order.deliver_works[2] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[2] ? order.deliver_works[2].filename : curFail[0]}}
+          //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
         p 注：请务必上传与雇主要求相应的项目文件
         p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
-        .sendRevise(@click="u", style="display:inline-block;") {{order.deliver_works[2] ? '已提交文件' : '提交文件'}}
+        .sendRevise(@click="submit('three')", style="display:inline-block;", v-if="!order.deliver_works[2]") 提交文件
         &nbsp;
-        .sendRevise(@click='uploadWork', style="display:inline-block;" v-if="!order.deliver_works[2]") 上传附件
+        //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[2]") 上传附件
           upload(type="deliveries")
-
         hr
-
         .asd(v-if="order.modify_works[2]")
           h3 雇主发起了改稿，请您及时修改并提交文件
-          p 房间做简欧吊顶
-          p 房间做简欧吊顶
-          p 房间做简欧吊顶
+          p {{order.modify_works[2].desc}}
           .upload_file
-            .file_name 附件
-            .uoloadbtn(@click='') 下载附件
+            .file_name {{order.modify_works[2].filename}}
+            a.uoloadbtn(:href="order.modify_works[2].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
   .jobs-container.clear(v-if="false")
@@ -153,9 +154,7 @@ export default {
     events: {
         uploadComplete(ret) {
           let data = ret.data[0];
-          if(this.curType === 'one'){//初稿
-            this.curFail = data
-          }
+          this.curFail = data
         }
     },
     asyncData(resolve) {
@@ -196,14 +195,39 @@ export default {
     },
     methods: {
       submit(type){
-        if(type === 'one'){//初稿
+        if(type === 'one'){
           api.patch({
             url:`/api/orders/${this.order.id}/`,
             data:{
               deliver_works:[this.curFail[2]]
             }
           }).done(function(){
-            console.log(this)
+            alert('提交文件成功!')
+          })
+        } else if (type === 'two'){
+          api.patch({
+            url:`/api/orders/${this.order.id}/`,
+            data:{
+              deliver_works:[
+                this.order.deliver_works[0].id,
+                this.curFail[2]
+              ]
+            }
+          }).done(function(){
+            alert('提交文件成功!')
+          })
+        } else if (type === 'three') {
+          api.patch({
+            url:`/api/orders/${this.order.id}/`,
+            data:{
+              deliver_works:[
+                this.order.deliver_works[0].id,
+                this.order.deliver_works[1].id,
+                this.curFail[2]
+              ]
+            }
+          }).done(function(){
+            alert('提交文件成功!')
           })
         }
       },

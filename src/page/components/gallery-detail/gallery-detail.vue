@@ -1,12 +1,12 @@
 <template>
-    <div class="galleryDetail" __vuec__>
+    <div v-if="isShow" class="galleryDetail" __vuec__>
         <div class="close" @click="closeGallery()">X</div>
         <div class="content">
             <div class="contentbox">
                 <div class="title">{{ galleryUserInfo.name }}</div>
                 <div class="userInfo">
                     <div class="left-info">
-                        <div class="avatar">
+                        <div @click="toEngineer" class="avatar">
                             <img :src="designerInfo.avatar" alt="avatar">
                         </div>
                         <div class="info">
@@ -87,11 +87,19 @@ export default {
                 left: '0px'
             },
             galleryCommentList: [],
-            inputValue: ''
+            inputValue: '',
+            isShow: false
         }
     },
-    props:['detail'],
+    props:['detail','show'],
     created () {
+        console.info(this.show)
+        if (this.show == 1) {
+            
+            this.isShow = false
+        } else if (this.show == 2) {
+            this.isShow = true
+        }
         let that = this;
         const galleryid = this.detail.id;
         const userid = this.detail.uid;
@@ -190,6 +198,10 @@ export default {
                 that.inputValue = ''
                 that.getComment()
             })
+        },
+        toEngineer () {
+            const publicURL = constant.PATH.USER_PUB + '?uid=' + this.detail.uid;
+            window.location.href = publicURL
         }
     }
 }
@@ -247,6 +259,7 @@ export default {
                 .avatar{
                     width: 50px;
                     height: 50px;
+                    cursor: pointer;
                     img{
                         width: 50px;
                         height: 50px;

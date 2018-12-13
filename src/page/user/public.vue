@@ -115,8 +115,10 @@ export default {
     font-size: 1.8rem;
   }
   .desc {
+    width: 800px;
     border-left: 1px solid #999;
     height: 245px;
+    overflow: hidden;
   }
   .liking img {
     height: 18px;

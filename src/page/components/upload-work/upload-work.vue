@@ -1,13 +1,13 @@
 <template lang="jade">
 modal(:show.sync="show", :css="{width: 640, height: 600}")
   .slot-header(slot="header") 上传作品
-  .slot-body.mt-40(slot="body", __vuec__)
-    ul.works.mt-30
+  .slot-body(slot="body", __vuec__)
+    ul.works
       li(v-for="work in works")
         .close(@click="deleteWork(work.id)") x
         a(@mouseenter="show")
           img(:src="work.mid_image")
-      li.upload(@click="uploadWork") +
+      li.uploads(@click="uploadWork") +
     upload(type="work")
   div(slot="footer")
 </template>
@@ -16,7 +16,6 @@ import constant from '/src/assets/js/constant';
 import api from '/src/assets/js/api';
 import modal from 'src/public/modal/modal';
 import upload from 'src/public/upload/upload';
-
 export default {
     components: {
         modal,
@@ -30,9 +29,15 @@ export default {
             this.url = constant.API.USER_GALLERY + gid + constant.API.IMAGE;
         },
         uploadComplete(resp) {
+            const image = {
+                '200x150': resp.data[0][1],
+                '400x300': resp.data[1][1],
+                '800x600': resp.data[2][1],
+                'ori': resp.data[3][1]
+            }
             let data = {
-                name: '',
-                image: resp.data
+                name: '123',
+                image: image
             };
             api.post({
                 url: this.url,
@@ -119,7 +124,7 @@ export default {
         cursor: pointer;
         font-size: 16px;
       }
-      &.upload {
+      &.uploads {
         line-height: 120px;
         text-align: center;
         font-size: 8rem;

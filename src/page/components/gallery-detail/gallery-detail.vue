@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isShow" class="galleryDetail" __vuec__>
+    <div class="galleryDetail" __vuec__>
         <div class="close" @click="closeGallery()">X</div>
         <div class="content">
             <div class="contentbox">
@@ -87,19 +87,11 @@ export default {
                 left: '0px'
             },
             galleryCommentList: [],
-            inputValue: '',
-            isShow: false
+            inputValue: ''
         }
     },
-    props:['detail','show'],
+    props:['detail'],
     created () {
-        console.info(this.show)
-        if (this.show == 1) {
-            
-            this.isShow = false
-        } else if (this.show == 2) {
-            this.isShow = true
-        }
         let that = this;
         const galleryid = this.detail.id;
         const userid = this.detail.uid;

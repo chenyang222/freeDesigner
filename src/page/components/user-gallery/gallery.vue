@@ -9,7 +9,6 @@ div.sort
       select.fl.ml-20(@change="searchCate")
         option(value="All") 全部
         option(v-for="opt in cates", value="{{opt}}") {{opt}}
-//- gallerydetail(v-if="isShowDetail", :detail='detailProp')
 .wrap-inner(__vuec__)
   .content
     ol.gallerys
@@ -31,8 +30,9 @@ div.sort
     .clear
   .clear
   paginator(:info="info", :size="9")
+gallerydetail(v-if="isShowDetail && !type", :detail='detailProp')  
 uploadwork(v-if="!!type")
-overlay(v-else)
+//- overlay(v-else)
 modal(:show.sync="showModal", type="warning", action="deleteGallery", :css="deleteModalCSS",
 text="你确认要删除相册吗？", subtext="在首页、个人作品展示登出的相册也将删除")
   header(slot="header") 删除提醒
@@ -123,12 +123,13 @@ export default {
          // 父组件向子组件派发请求
         // 弹出相册遮罩，展示详细展开包的信息，和更多相册信息
         showOverlay (gallery) {
+            console.info(this.type)
             this.$broadcast('changeGallery', {
                 data: gallery,
                 showModal: true
             });
-            // this.isShowDetail = true;
-            // this.detailProp = gallery;
+            this.isShowDetail = true;
+            this.detailProp = gallery;
         },
         closeGallery () {
             this.isShowDetail = false;

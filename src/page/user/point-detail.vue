@@ -53,7 +53,7 @@ dheader
             p 2、请务必确认以上信息完全正确才能收到提现款
             p
                 | 3、如有疑问请
-                span(style='color:#00a0e9;') 联系我们
+                a(style='color:#00a0e9;', href="mailto:1776261265@qq.com") 联系我们
 </template>
 
 <script>

@@ -18,7 +18,7 @@
               <div class="skill">
                 {{info.user.role}}
               </div>
-              <div class="integral">议价：{{info.apply_cost}}积分</div>
+              <div class="integral">议价：{{info.apply_cost / 100}}积分</div>
             </div>
           </div>
           <div class="explain">
@@ -41,6 +41,7 @@
               <p>{{ item.answer }}</p>
             </div>
           </div>
+          <!-- 117338可用积分 -->
         </div>
         <div class="tel-check">
           <h3>电话考核</h3>
@@ -48,8 +49,8 @@
           <p>{{info.user.mobile}}</p>
         </div>
         <div class="footersss">
-          <h4 class="total-price">服务总价：{{detail.pub_cost + detail.apply_cost + detail.system_cost}}积分</h4>
-          <div class="price-info">【系统报价{{detail.system_cost}}+增加奖金{{detail.fee}}+接单人加价{{detail.apply_cost}}】</div>
+          <h4 class="total-price">服务总价：{{(detail.pub_cost + info.apply_cost) / 100}}积分</h4>
+          <div class="price-info">【系统报价{{detail.system_cost}}+增加奖金{{detail.fee / 100}}+接单人加价{{info.apply_cost / 100}}】</div>
           <div class="submit" @click="surePay">确定合作并付款</div>
           <div class="agree" @click="showAgree">
             <img src="./images/redyes.png" alt="redyes">

@@ -153,7 +153,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
             img(:src="record.works[0]['200x150']", v-if="record.works.length")
             span 共{{record.works.length}}图片
         td.challenge
-          {{record.apply_cost}}积分
+          {{record.apply_cost / 100}}积分
     div(v-else, style="height:100px;text-align: center;line-height: 100px;") 暂无接单人
 dfooter
 </template>

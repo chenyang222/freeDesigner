@@ -284,7 +284,7 @@ export default {
         submit() {
             const {question,questionEdit} = this
             const self = this
-            this.formData.pub_cost = this.formData.pub_cost - Number(this.formData.fee) * 100
+            this.formData.pub_cost = this.formData.system_cost
             console.info(this.formData)
             let ajax = this.id ? api.patch : api.post;
             let data = this.id ? {
@@ -309,9 +309,9 @@ export default {
                     })
                   )
                 ]).then(()=>{
-                  // setTimeout(() => {
-                  //   window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
-                  // }, 2000);
+                  setTimeout(() => {
+                    window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  }, 2000);
                 })
               } else {
                 Promise.all([
@@ -324,9 +324,9 @@ export default {
                     })
                   })
                 ]).then(()=>{
-                  // setTimeout(() => {
-                  //   window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
-                  // }, 2000);
+                  setTimeout(() => {
+                    window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  }, 2000);
                 })
               }
             })

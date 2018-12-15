@@ -155,7 +155,7 @@ export default {
         },
         submit() {
           let that = this;
-          if (this.res > 0) {
+          if (this.res > 0 || this.answerList.length == 0) {
             const data = {
               desc: that.desc,
               apply_cost: parseInt(that.apply_cost, 10),

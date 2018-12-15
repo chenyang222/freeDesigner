@@ -9,7 +9,6 @@ div.sort
       select.fl.ml-20(@change="searchCate")
         option(value="All") 全部
         option(v-for="opt in cates", value="{{opt}}") {{opt}}
-gallerydetail(v-if="isShowDetail", :detail='detailProp')
 .wrap-inner(__vuec__)
   .content
     ol.gallerys
@@ -31,8 +30,9 @@ gallerydetail(v-if="isShowDetail", :detail='detailProp')
     .clear
   .clear
   paginator(:info="info", :size="9")
+gallerydetail(v-if="isShowDetail && !type", :detail='detailProp')  
 uploadwork(v-if="!!type")
-overlay(v-else)
+//- overlay(v-else)
 modal(:show.sync="showModal", type="warning", action="deleteGallery", :css="deleteModalCSS",
 text="你确认要删除相册吗？", subtext="在首页、个人作品展示登出的相册也将删除")
   header(slot="header") 删除提醒
@@ -42,7 +42,7 @@ import {Vue} from 'src/assets/js/page';
 import constant from '/src/assets/js/constant';
 import api from '/src/assets/js/api';
 import utils from '/src/assets/js/utils';
-// import overlay from '/src/page/components/gallery-overlay/overlay';
+import overlay from '/src/page/components/gallery-overlay/overlay';
 import gallerydetail from '/src/page/components/gallery-detail/gallery-detail';
 import uploadwork from '/src/page/components/upload-work/upload-work';
 import paginator from 'src/public/paginator/paginator';
@@ -52,7 +52,7 @@ import modal from 'src/public/modal/modal';
 export default {
     props: ['uid', 'type'],
     components: {
-        // overlay,
+        overlay,
         gallerydetail,
         uploadwork,
         paginator,
@@ -123,10 +123,11 @@ export default {
          // 父组件向子组件派发请求
         // 弹出相册遮罩，展示详细展开包的信息，和更多相册信息
         showOverlay (gallery) {
-            // this.$broadcast('changeGallery', {
-            //     data: gallery,
-            //     showModal: true
-            // });
+            console.info(this.type)
+            this.$broadcast('changeGallery', {
+                data: gallery,
+                showModal: true
+            });
             this.isShowDetail = true;
             this.detailProp = gallery;
         },

@@ -16,6 +16,8 @@ dheader
       span(style="margin:0px 10px") 可用积分：{{userinfo.available_points}}
       span(style="margin:0px 10px") 可提现积分：{{userinfo.available_cash_points}}
     input.name.mt-30(placeholder="您的尊称", v-model="name")
+    input.name.mt-30(placeholder="我的年龄", v-model="age")
+    input.name.mt-30(placeholder="从业年限", v-model="career")
     textarea.desc.mt-30(placeholder="您的简介", v-model="desc")
     .professional.mt-20
       .title 请选择承接业务类型（请最多选择三个技能）
@@ -45,6 +47,7 @@ export default {
     asyncData (resolve, reject) {
         // 绑定用户信息
         window.userStat.done(function () {
+            console.info(this.data)
             resolve(this.data);
         });
     },
@@ -106,7 +109,9 @@ export default {
                 name: this.name,
                 desc: this.desc,
                 avatar: this.avatar,
-                role: this.role
+                role: this.role,
+                career: this.career,
+                age: this.age
             };
             this.patch(data);
         },
@@ -209,6 +214,7 @@ export default {
     border-radius: 10px;
     margin-right: 50px;
     height: 920px;
+    overflow-y: auto;
     .avatar-container,
     .avatar,
     .avatar-config,

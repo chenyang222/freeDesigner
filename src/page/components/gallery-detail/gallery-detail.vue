@@ -6,7 +6,7 @@
                 <div class="title">{{ galleryUserInfo.name }}</div>
                 <div class="userInfo">
                     <div class="left-info">
-                        <div class="avatar">
+                        <div @click="toEngineer" class="avatar">
                             <img :src="designerInfo.avatar" alt="avatar">
                         </div>
                         <div class="info">
@@ -43,7 +43,7 @@
                     <div class="more">
                         <span class="more-title">更多作品 ...</span>
                         <div class="more-content">
-                            <div v-for="(idx, items) in galleryList.slice(0, 4)" :key="idx" :style="{'background-image': 'url(' + items.small_image + ')'}"></div>
+                            <div @click="replaceGallery(items)" v-for="(idx, items) in galleryListMore.slice(0, 4)" :key="idx" :style="{'background-image': 'url(' + items.thumb + ')'}"></div>
                         </div>
                     </div>
                 </div>
@@ -81,6 +81,7 @@ export default {
                 role: ''
             },
             galleryList: [],
+            galleryListMore: [],
             nowImage: '',
             nowIndex: 0,
             styleObj: {
@@ -92,32 +93,42 @@ export default {
     },
     props:['detail'],
     created () {
-        let that = this;
-        const galleryid = this.detail.id;
-        const userid = this.detail.uid;
-        const galleryUsrUrl = '/api/users/' + userid + '/gallery/' + galleryid; // 设计师信息
-        const userInfoUrl = '/api/users/' + userid; // 设计师信息
-        const galleryPicUrl = '/api/users/' + userid + '/gallery/' + galleryid + '/image/'; // 图片信息
-        api.get({
-            url: galleryUsrUrl
-        }).done(function () {
-            that.galleryUserInfo = this.data;
-        })
-        api.get({
-            url: userInfoUrl
-        }).done(function () {
-            that.designerInfo = this.data;
-        })
-        api.get({
-            url: galleryPicUrl
-        }).done(function () {
-            that.galleryList = this.data;
-            that.nowImage = this.data[0].mid_image;
-            that.nowIndex = 0;
-        })
-        this.getComment();
+        this.pageInit();
     },
     methods: {
+        pageInit () {
+            let that = this;
+            const galleryid = this.detail.id;
+            const userid = this.detail.uid;
+            const galleryUsrUrl = '/api/users/' + userid + '/gallery/' + galleryid; // 设计师信息
+            const userInfoUrl = '/api/users/' + userid; // 设计师信息
+            const galleryPicUrl = '/api/users/' + userid + '/gallery/' + galleryid + '/image/'; // 图片信息
+            const morePictureUrl = '/api/users/' + userid + '/gallery/'; //更多作品 
+            api.get({
+                url: galleryUsrUrl
+            }).done(function () {
+                that.galleryUserInfo = this.data;
+            })
+            api.get({
+                url: userInfoUrl
+            }).done(function () {
+                that.designerInfo = this.data;
+            })
+            api.get({
+                url: galleryPicUrl
+            }).done(function () {
+                that.galleryList = this.data;
+                that.nowImage = this.data[0].mid_image;
+                that.nowIndex = 0;
+            })
+            api.get({
+                url: morePictureUrl
+            }).done(function () {
+                console.info(this.data)
+                that.galleryListMore = this.data.galleries;
+            })
+            this.getComment();
+        },
         closeGallery () {
             this.$parent.closeGallery()
         },
@@ -190,6 +201,14 @@ export default {
                 that.inputValue = ''
                 that.getComment()
             })
+        },
+        toEngineer () {
+            const publicURL = constant.PATH.USER_PUB + '?uid=' + this.detail.uid;
+            window.location.href = publicURL
+        },
+        replaceGallery (items) {
+            this.detail = items;
+            this.pageInit();
         }
     }
 }
@@ -247,6 +266,7 @@ export default {
                 .avatar{
                     width: 50px;
                     height: 50px;
+                    cursor: pointer;
                     img{
                         width: 50px;
                         height: 50px;

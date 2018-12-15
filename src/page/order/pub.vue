@@ -155,7 +155,7 @@ export default {
         pub_cost() {
             let fee = parseInt(this.fee, 10) || 0;
             let sysCost = parseInt(this.system_cost, 10) || 0;
-            let pubCost = fee + sysCost;
+            let pubCost = fee * 100 + sysCost;
             return pubCost;
         },
         // 获得表单数据
@@ -284,6 +284,8 @@ export default {
         submit() {
             const {question,questionEdit} = this
             const self = this
+            this.formData.pub_cost = this.formData.pub_cost - Number(this.formData.fee) * 100
+            console.info(this.formData)
             let ajax = this.id ? api.patch : api.post;
             let data = this.id ? {
                 fee: this.fee,
@@ -307,9 +309,9 @@ export default {
                     })
                   )
                 ]).then(()=>{
-                  setTimeout(() => {
-                    window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
-                  }, 2000);
+                  // setTimeout(() => {
+                  //   window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  // }, 2000);
                 })
               } else {
                 Promise.all([
@@ -322,9 +324,9 @@ export default {
                     })
                   })
                 ]).then(()=>{
-                  setTimeout(() => {
-                    window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
-                  }, 2000);
+                  // setTimeout(() => {
+                  //   window.location.href = constant.PATH.ORDER_PUB_MANAGEMENT
+                  // }, 2000);
                 })
               }
             })
@@ -476,11 +478,11 @@ export default {
             top: -4px;
             text-align: right;
             &.deadline {
-              width: 148px;
+              width: 186px;
               color: red;
               background: #fff url(./images/arrow-down.png) no-repeat center right;
               position: relative;
-              top: 20px;
+              top: 0px;
               text-align: left;
             }
           }

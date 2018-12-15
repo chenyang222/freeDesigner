@@ -7,7 +7,7 @@
           <div class="content clearfix">
             <ol class="gallerys">
                 <li v-for="items in engineersList" :key="items.id">
-                    <div class="item fl">
+                    <div class="item fl" @click="toEngineer(items)">
                         <div class="avatar">
                             <img :src="items.avatar">
                         </div>
@@ -31,6 +31,7 @@
 </template>
 <script>
 import api from '/src/assets/js/api';
+import constant from '/src/assets/js/constant';
 export default {
     data() {
         return{
@@ -70,6 +71,10 @@ export default {
                 shuffled[i] = temp;
             }
             return shuffled.slice(min);
+        },
+        toEngineer (items) {
+            const publicURL = constant.PATH.USER_PUB + '?uid=' + items.id;
+            window.location.href = publicURL
         }
     }
 }

@@ -1,21 +1,49 @@
 <template>
   <div class="banner" __vuec__>
     <img src="./banner.png" alt="banner">
-    <div class="info">
+    <div v-if="!data.id" class="info">
       <p>现在就与  28593  万名工程师成为挚友 </p>
       <a :href="REGISTER">加入我们</a>
     </div>
   </div>
 </template>
 <script>
+import eventVue from '../../../assets/js/eventVue'
+import api from '/src/assets/js/api';
 import constant from '/src/assets/js/constant';
+import _ from 'lodash';
+
 export default {
-  data() {
-    return{
-      REGISTER: constant.PATH.REGISTER
+    // 获取users的信息
+    asyncData (resolve) {
+        this.fetch()
+        .done(function () {
+            resolve(this);
+        });
+    },
+    computed: {
+      isLogout () {
+          return this.data && JSON.stringify(this.data) === '{}';
+      }
+    },
+    methods: {
+        fetch () {
+            let promise = api.get({
+                url: constant.API.USER_STAT
+            });
+            return promise;
+        }
+    },
+    data() {
+        return _.merge({}, constant.PATH, {
+            info: {},
+            data: {},
+            // 未登录状态
+            success: false,
+            REGISTER: constant.PATH.REGISTER
+        });
     }
-  }
-}
+};
 </script>
 
 <style lang="less">

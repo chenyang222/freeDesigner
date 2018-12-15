@@ -181,7 +181,7 @@ export default {
           cursor: pointer;
           width: 80px;
           right: 0;
-          background: #464d5a;
+          background: #fff;
           .logout {
             width: 100%;
             a {

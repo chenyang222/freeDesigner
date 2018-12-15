@@ -43,7 +43,7 @@ constant.API =  {
     SUGGEST_PRICE: '/suggest_cost/',
     APPLY_RECORDS: '/apply_records/',  // 和子资源的url一样, 但是路径不一样
     DEMAND: '/demand/',
-    GET_ADD_PRESTORE: '/prestore/',
+    GET_ADD_PRESTORE: '/prestores/',
     PAY_CREATE_ORDER: '/pay/create_order/',
     PAY_CHECK: '/wechat/pay_check/'
 };

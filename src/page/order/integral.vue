@@ -1,65 +1,66 @@
 <template>
-    <dheader></dheader>
-    <div class="container">
-        <form class="cont layui-form"><h2 class="title">第一步：选择溜币充值套包</h2>
-            <ul class="package row clearfix">
-                <li v-for="(index,item) in list" @click="prestore_info(index,item.id)">
-                    <label :class="{active:active_index === index}">
-                        <dl>
-                            <dt>
-                                <h3><span>{{item.total_points}}积分</span></h3>
-                                <p>积分:{{item.ori_points}} 赠送:{{item.extra_points}} </p>
-                                <span class=""> &nbsp; {{item.name}} </span>
-                            </dt>
-                            <dd>
-                                <p><span class="package_price js">{{item.order_cost}}元</span></p>
-                            </dd>
-                        </dl>
-                        <span class="iconfont"><i>✓</i></span>
+    <div class="integral" __vuec__>
+        <dheader></dheader>
+        <div class="container">
+            <form class="cont layui-form"><h2 class="title">第一步：选择溜币充值套包</h2>
+                <ul class="package row clearfix">
+                    <li v-for="(index,item) in list" @click="prestore_info(index,item.id)">
+                        <label :class="{active:active_index === index}">
+                            <dl>
+                                <dt>
+                                    <h3><span>{{item.total_points}}积分</span></h3>
+                                    <p>积分:{{item.ori_points}} 赠送:{{item.extra_points}} </p>
+                                    <span class=""> &nbsp; {{item.name}} </span>
+                                </dt>
+                                <dd>
+                                    <p><span class="package_price js">{{item.order_cost}}元</span></p>
+                                </dd>
+                            </dl>
+                            <span class="iconfont"><i>✓</i></span>
+                        </label>
+                    </li>
+                </ul>
+                <!--<h2 class="title">第二步：选择优惠信息</h2>-->
+                <!--<div class="discount">-->
+                <!--<div class="layui-inline">-->
+                <!--<div class="layui-input-inline"><select lay-ignore="" id="changeCoupon">-->
+                <!--<option value="">选择优惠信息</option>-->
+                <!--<option value="">暂无优惠券可使用</option>-->
+                <!--</select></div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <h2 class="title">第二步：选择支付方式并付款</h2>
+                <div class="payway clearfix">
+                    <label class="wechatpay" data-payway="0">
+                        <i class="iconfont"></i>
                     </label>
-                </li>
-            </ul>
-            <!--<h2 class="title">第二步：选择优惠信息</h2>-->
-            <!--<div class="discount">-->
-            <!--<div class="layui-inline">-->
-            <!--<div class="layui-input-inline"><select lay-ignore="" id="changeCoupon">-->
-            <!--<option value="">选择优惠信息</option>-->
-            <!--<option value="">暂无优惠券可使用</option>-->
-            <!--</select></div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <h2 class="title">第二步：选择支付方式并付款</h2>
-            <div class="payway clearfix">
-                <label class="wechatpay" data-payway="0">
-                    <i class="iconfont"></i>
-                </label>
-            </div>
-            <div class="payway clearfix">
-                <button type="button" id="goToPayBt" class="click-botton" @click="pay">立即支付</button>
-            </div>
-        </form>
+                </div>
+                <div class="payway clearfix">
+                    <button type="button" id="goToPayBt" class="click-botton" @click="pay">立即支付</button>
+                </div>
+            </form>
 
-        <div class="wrap-info" v-show="isShow== true">
-            <div class="wrap-info-block" v-show="isSuccessShow">
-                <div><img src="./images/yes.png"/></div>
-                <div class="wrap-txt">
-                    <span>购买：{{list[active_index].ori_points}}</span>&nbsp;&nbsp;
-                    <span>赠送：{{list[active_index].extra_points}}</span>
-                    <span>支付：{{list[active_index].order_cost}}</span>
+            <div class="wrap-info" v-show="isShow== true">
+                <div class="wrap-info-block" v-show="isSuccessShow">
+                    <div><img src="./images/yes.png"/></div>
+                    <div class="wrap-txt">
+                        <span>购买：{{list[active_index].ori_points}}</span>&nbsp;&nbsp;
+                        <span>赠送：{{list[active_index].extra_points}}</span>
+                        <span>支付：{{list[active_index].order_cost}}</span>
+                    </div>
+                    <div class="">
+                        <a class="btn" href="/">返回首页</a>
+                        <span class="btn" style="background-color: #fa7d3e" @click="backThisPage">继续购买</span>
+                    </div>
                 </div>
-                <div class="">
-                    <a class="btn" href="/">返回首页</a>
-                    <span class="btn" style="background-color: #fa7d3e" @click="backThisPage">继续购买</span>
+                <div class="pay-code" v-if="isIframe">
+                    <div><img :src="orderUrl" class="code-img" /></div>
+                    <div class="loading"><img src="./images/loading.gif">支付中...</div>
                 </div>
             </div>
-            <div class="pay-code" v-if="isIframe">
-                <div><img :src="orderUrl" class="code-img" /></div>
-                <div class="loading"><img src="./images/loading.gif">支付中...</div>
-            </div>
+
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -169,7 +170,8 @@
     }
 </script>
 
-<style scoped>
+<style lang="less">
+.integral[__vuec__]{
     .wrap-info{
         background-color: rgba(0, 0, 0, 0.44);
         width: 100%;
@@ -599,6 +601,6 @@
         -moz-box-shadow: 0px 0px 5px #666666; /* 老的 Firefox */
         box-shadow: 0px 0px 15px #666666;
     }
-
+}
 
 </style>

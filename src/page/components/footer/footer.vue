@@ -46,7 +46,7 @@
                     margin: 0;
                 }
 
-                span {
+                a {
                     display: inline-block;
                     background-color: #3e94fb;
                     border-radius: 20px;
@@ -88,7 +88,9 @@ footer.footer(__vuec__)
             p 自由盟邦网服务热线
             h4 010-53393309
             p 客服QQ
-                span 1776261265
+                a(href="http://shang.qq.com/email/stop/email_stop.html?qq=1776261265&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1")
+                    img(src="/src/page/components/footer/qq.png") 
+                    span 1776261265
             p 周一至周五：09:00—21:00
             p 周末及节假日：09:00—08:00
   div.bottom

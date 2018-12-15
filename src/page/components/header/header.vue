@@ -18,7 +18,7 @@ header.header(__vuec__)
           li(:class="{active: pathname === ORDER_INTEGRAL}")
             a(href="{{ORDER_INTEGRAL}}") 积分购买
           li
-            a(href="/about.html") 关于自由
+            a(href="{{ABOUT}}", target="_blank;") 关于自由
       div.account-container.fr
         .fl(v-if="isLogout")
           ul.login

@@ -6,7 +6,7 @@ ul.tab.fl.mt-150(__vuec__)
     a(href="{{spaceURL}}") 个人空间
   li.account
     a(href="{{accountURL}}") 账户安全
-  li.points
+  li.point-detail
     a.last(href="{{pointsURL}}") 积分管理
 </template>
 <script>

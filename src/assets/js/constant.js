@@ -80,6 +80,7 @@ constant.PATH = {
     ORDER_APPLY_RECORD: '/order/apply_record.html',
     ORDER_INTEGRAL: '/order/integral.html',
     POINTS_DETAIL: '/user/point-detail.html',
+    ABOUT: '/about/about.html',
 };
 
 constant.ORDER = {

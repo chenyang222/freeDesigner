@@ -25,7 +25,7 @@
       ul.cost-desc.mt-30
         li
           span 系统报价
-          span.ml-30 ￥{{order.system_cost || 0}} 积分
+          span.ml-30 ￥{{order.system_cost/100 || 0}} 积分
         li
           span 已加赏金
           span.ml-30 ￥{{order.fee/100 || 0}} 积分

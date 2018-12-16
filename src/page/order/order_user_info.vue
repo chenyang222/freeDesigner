@@ -50,7 +50,7 @@
         </div>
         <div class="footersss">
           <h4 class="total-price">服务总价：{{(detail.pub_cost + info.apply_cost) / 100}}积分</h4>
-          <div class="price-info">【系统报价{{detail.system_cost}}+增加奖金{{detail.fee / 100}}+接单人加价{{info.apply_cost / 100}}】</div>
+          <div class="price-info">【系统报价{{detail.system_cost/100}}+增加奖金{{detail.fee / 100}}+接单人加价{{info.apply_cost / 100}}】</div>
           <div class="submit" @click="surePay">确定合作并付款</div>
           <div class="agree" @click="showAgree">
             <img src="./images/redyes.png" alt="redyes">
@@ -128,7 +128,16 @@ export default {
           price_type: 'all'
         }
       }).done(function(){
+        api.post({
+        url:'/api/pay/create_order/',
+        data:{
+          goods_id: this.info.id,
+          goods_type: 'pre_order',
+          price_type: 'all'
+        }
+      }).done(function(){
         window.location.reload()
+      })
       })
     }
   }

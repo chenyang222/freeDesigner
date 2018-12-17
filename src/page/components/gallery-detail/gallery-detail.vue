@@ -26,7 +26,9 @@
                     </div>
                 </div>
                 <div class="image-content">
-                    <div class="showImage" :style="{'background-image': 'url(' + nowImage + ')'}"></div>
+                    <div class="showImage">
+                        <img :src="nowImage" alt="">
+                    </div>
                     <div class="selectImage">
                         <div class="imgbox" :style="styleObj">
                             <div @click="selectImg(items.mid_image, idx)" :class="idx == nowIndex ? 'img active' : 'img'" v-for="(idx, items) in galleryList" :key="idx">
@@ -324,11 +326,14 @@ export default {
             background-color: #ffffff;
             .showImage{
                 width: 100%;
-                height: 603px;
+                // height: 603px;
                 overflow: hidden;
-                background-position: center center;
-                background-size: cover;
-                background-repeat: no-repeat;
+                // background-position: center center;
+                // background-size: cover;
+                // background-repeat: no-repeat;
+                img {
+                    width: 100%;
+                }
             }
             .selectImage{
                 margin: 27px 29px 21px 29px;
@@ -349,7 +354,7 @@ export default {
                         }
                     }
                     .active{
-                        box-shadow:0 0 15px #0CC;
+                        box-shadow:0 0 15px #4495f7;
                     }
                 }
             }

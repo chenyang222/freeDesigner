@@ -182,7 +182,7 @@ export default {
             }
         }
         .item:hover{
-            box-shadow:0 0 15px #0CC;
+            box-shadow:0 0 15px #4495f7;
         }
         .item {
             display: flex;

@@ -17,7 +17,7 @@ dheader
       .fixDesc(@click="fixDesc") 修改
       div
       .clear
-      .label 问题解答
+      .label 问题解答（雇主上传了 {{questionList.length}} 个问题）
       .answer-btn(@click="beginAnswer", v-show="timing == 0 && !overAnswer") 开始答题
       .answering(v-show="timing > 0 && !overAnswer")
         .timing.answer-btn {{ timingText }}
@@ -142,6 +142,12 @@ export default {
       }, 1000)
     },
     computed: {
+
+      questionTotal () {
+        console.log(this)
+        return 1
+          // return this.data && JSON.stringify(this.data) === '{}';
+      },
         fee() {
             let fee = this.order.pub_cost - this.order.system_cost || 0;
             return fee;

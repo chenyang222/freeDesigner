@@ -114,13 +114,15 @@ import upload from 'src/public/upload/upload';
 import $ from 'jquery';
 import utils from 'src/assets/js/utils';
 import mixins from 'src/page/mixins';
+import loading from 'src/public/loading/loading'
 import _ from 'lodash';
 
 export default {
     mixins: [mixins],
     components: {
         dheader,
-        upload
+        upload,
+        loading
     },
     events: {
         uploadComplete(resp) {
@@ -352,6 +354,7 @@ export default {
     data() {
         let id = utils.getURLParam('id');
         return {
+          isloading:false,
             orderType:1,
             projectFiles:[],
             id,

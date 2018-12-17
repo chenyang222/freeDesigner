@@ -112,6 +112,7 @@ export default {
     font-size: 20px;
   }
   .slogon {
+    color: #fff;
     font-size: 1.8rem;
   }
   .desc {

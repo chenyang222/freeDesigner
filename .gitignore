@@ -3,4 +3,4 @@ components/*
 .editorconfig
 output
 _dev
-
+output.zip

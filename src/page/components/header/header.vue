@@ -58,6 +58,7 @@ export default {
         let self = this;
         this.fetch()
         .done(function () {
+            localStorage.setItem("userInfo", JSON.stringify(this.data));
             localStorage.setItem("temp_user_id", this.data.id);
             eventVue.$emit("userinfo",this.data)
             resolve(this);

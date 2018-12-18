@@ -26,7 +26,7 @@ dheader
         .ml-60.fl 接单量：{{order.apply_count}}
         .ml-60.fr.count-down(v-if="order.status === 80") 剩余时间：{{order.count_down}}
         .action.fr(v-if="order.status !== 80", :class="{special: $index === 0}")
-          .share(title="分享订单")
+          //- .share(title="分享订单")
             a(href="{{shareURL}}?id={{order.id}}", target="_blank;")
           .edit(v-if="order.status !== 0", title="编辑订单")
             a(href="{{pubOrderURL}}?id={{order.id}}", target="_blank;")

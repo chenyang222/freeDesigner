@@ -26,8 +26,8 @@ dheader
     .tab-main(v-else="tabActive === 'putForward'")
         .tab-main-header
             p(style="color:#000;font-weight:bold;") 可提现积分
-                span(style="color:#4195f7;") 123，折换成人民币¥
-                span(style="color:#ff0000;"){{321}}
+                span(style="color:#4195f7;") {{userInfo.available_cash_points}}，折换成人民币¥
+                span(style="color:#ff0000;"){{userInfo.available_cash_points}}
             p (1积分=1人民币，满100积分可提现）
         .form
             .form-item
@@ -72,6 +72,7 @@ export default {
             url:`/api/points/`,
         }).done(function(){
             this.pointsList = this.data
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
             resolve(this)
         })
     },

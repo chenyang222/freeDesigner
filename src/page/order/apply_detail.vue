@@ -14,14 +14,14 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
   .description(v-if="showConfirmed")
     .l
       .avatar
-        img(:src="order.applier.avatar")
-      .name {{order.applier.name}}
-      .exp 3年工作经验
-      .type 【弱电智能】【灯光设计】
+        img(:src="order.user.avatar")
+      .name {{order.user.name}}
+      .exp {{order.user.career}}年工作经验
+      .type {{order.user.role}}
       .tel-check
-        a(:href='`tel:${order.applier.mobile}`')
+        a(:href='`tel:${order.user.mobile}`')
           img(src='./images/ico_tel.png', alt='')
-        span {{order.applier.mobile}}
+        span {{order.user.mobile}}
       p 注：工作者交付稿件后五个工作日雇主未发起改稿，系统默认为订单交易结束并完成支付。
     .r
       .first
@@ -30,12 +30,12 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
             span 【交付稿件为初稿】
         .upload_file
           .file_name(v-if="order.deliver_works[0] || curFail[1]") {{order.deliver_works[0] ? order.deliver_works[0].filename : curFail[0]}}
-          .file_name(v-else) 请上传项目文件
+          .file_name(v-else) 请上传ZIP等压缩包文件
           .uoloadbtn(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[0]") 上传附件
             upload(type="deliveries")
         p 注：请务必上传与雇主要求相应的项目文件
         p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
-        .sendRevise(@click="submit('one')", style="display:inline-block;", v-if="!order.deliver_works[0]") 提交文件
+        .sendRevise(@click="submit('one')", style="display:inline-block;", v-if="!order.deliver_works[0] && curFail[1]") 提交文件
         &nbsp;
         //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[0]") 上传附件
           upload(type="deliveries")
@@ -54,14 +54,14 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
             span 【交付稿件为一改】
           .upload_file
             .file_name(v-if="order.deliver_works[1] || curFail[1]") {{order.deliver_works[1] ? order.deliver_works[1].filename : curFail[0]}}
-            .file_name(v-else) 请上传项目文件
+            .file_name(v-else) 请上传ZIP等压缩包文件
             .uoloadbtn(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[1]") 上传附件
               upload(type="deliveries")
           //- div(v-if="order.deliver_works[1] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[1] ? order.deliver_works[1].filename : curFail[0]}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
         p 注：请务必上传与雇主要求相应的项目文件
         p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
-        .sendRevise(@click="submit('two')", style="display:inline-block;", v-if="!order.deliver_works[1]") 提交文件
+        .sendRevise(@click="submit('two')", style="display:inline-block;", v-if="!order.deliver_works[1] && curFail[1]") 提交文件
         &nbsp;
         //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[1]") 上传附件
           upload(type="deliveries")
@@ -80,14 +80,14 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
             span 【交付稿件为二改】
           .upload_file
             .file_name(v-if="order.deliver_works[2] || curFail[1]") {{order.deliver_works[2] ? order.deliver_works[2].filename : curFail[0]}}
-            .file_name(v-else) 请上传项目文件
+            .file_name(v-else) 请上传ZIP等压缩包文件
             .uoloadbtn(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[2]") 上传附件
               upload(type="deliveries")
           //- div(v-if="order.deliver_works[2] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[2] ? order.deliver_works[2].filename : curFail[0]}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
         p 注：请务必上传与雇主要求相应的项目文件
         p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
-        .sendRevise(@click="submit('three')", style="display:inline-block;", v-if="!order.deliver_works[2]") 提交文件
+        .sendRevise(@click="submit('three')", style="display:inline-block;", v-if="!order.deliver_works[2] && curFail[1]") 提交文件
         &nbsp;
         //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[2]") 上传附件
           upload(type="deliveries")
@@ -202,7 +202,7 @@ export default {
               deliver_works:[this.curFail[2]]
             }
           }).done(function(){
-            alert('提交文件成功!')
+            window.location.reload()
           })
         } else if (type === 'two'){
           api.patch({
@@ -214,7 +214,7 @@ export default {
               ]
             }
           }).done(function(){
-            alert('提交文件成功!')
+            window.location.reload()
           })
         } else if (type === 'three') {
           api.patch({
@@ -227,7 +227,7 @@ export default {
               ]
             }
           }).done(function(){
-            alert('提交文件成功!')
+            window.location.reload()
           })
         }
       },

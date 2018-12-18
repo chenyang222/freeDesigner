@@ -35,7 +35,7 @@
               <div class="headerrrrrrrr">
                 <h4>第{{ $index + 1 }}题：{{ item.order_question.question }}</h4>
                 <div class="time">
-                  <img src="./ico_time.png" alt="">【{{ showAnswerTime(item.start_time, item.end_time) }}】
+                  <img src="./images/ico_time.png" alt="">【{{ showAnswerTime(item.start_time, item.end_time) }}】
                 </div>
               </div>
               <p>{{ item.answer }}</p>
@@ -271,6 +271,7 @@ txt: `
   }
 
   .mains {
+    position: relative;
     margin: 0 auto;
     margin-top: 160px;
     width: 892px;
@@ -280,10 +281,11 @@ txt: `
     .close {
       position: absolute;
       right: 0;
-      top: 0;
-      font-size: 100px;
+      top: -82px;
+      font-size: 55px;
       z-index: 999999;
       color: #fff;
+      padding: 0;
     }
 
     >div {

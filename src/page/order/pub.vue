@@ -148,6 +148,14 @@ export default {
     computed: {
       feeComputed:{
         get:function(){
+          console.log("@@@@@")
+          console.log("@@@@@")
+          console.log("@@@@@")
+          console.log("@@@@@")
+          console.log("@@@@@")
+          console.log("@@@@@")
+          console.log("@@@@@")
+          console.log(this)
           return this.fee
         },
         set:function(val){
@@ -205,6 +213,7 @@ export default {
             this.fetch()
             .done(function () {
               orderInfo = this.data
+              orderInfo.fee = orderInfo.fee / 100
             });
 
             this.getQuestionList()

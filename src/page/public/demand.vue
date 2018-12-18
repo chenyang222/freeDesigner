@@ -23,7 +23,8 @@ dheader
         img.fl(:src="order.user.avatar")
     .desc-title.fl.ellipsis(title="{{order.title}}") {{order.title}}
     .system-cost.fl.ml-100 {{order.pub_cost/100}}
-    a.link(href="{{applyRecordURL}}?oid={{order.id}}", target="_new")
+    a.link(href="/order/pub.html?id={{order.id}}", target="_new", v-if="order.user.id | a")
+    a.link(href="{{applyRecordURL}}?oid={{order.id}}", target="_new", v-else)
     .clear
     .time
       span.pub 创建时间：{{order.pub_time | date}}
@@ -47,6 +48,12 @@ export default {
         dfooter,
         paginator
     },
+    filters:{
+      a(val){
+        const userid = localStorage.getItem('temp_user_id')
+        return val === userid ? true : false
+      }
+    },
     asyncData (resolve, reject) {
         let self = this;
         $.when(this.fetch(), this.fetchCategory())
@@ -54,12 +61,16 @@ export default {
             let applys = this[0];
             let categorys = this[1];
             let obj = {};
+            console.log(applys.data)
             obj.orders = applys.data;
             obj.fcates = categorys.data.fcates;
             obj.scates = categorys.data.scates;
             obj.info = applys.info;
             resolve(obj);
         });
+    },
+    ready(){
+      console.log(this)
     },
     watch: {
         query: {

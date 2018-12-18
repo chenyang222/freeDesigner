@@ -2,7 +2,7 @@
   <div class="loading-box" __vuec__>
     <img src="./loading-o.png" alt="">
   </div>
-</template>
+</template> 
 <style lang="less">
 @keyframes rotate {
   0% {

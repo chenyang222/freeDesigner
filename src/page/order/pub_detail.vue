@@ -40,7 +40,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
         hr(v-if="order.deliver_works[0].file_path")
         div(v-if="order.deliver_works[0]")
           textarea.revise(v-if="order.deliver_works[0] && !order.modify_works",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
-          div(v-else, style="height:150px;border:1px solid #000;") {{order.modify_works[0].desc}}
+          div(v-else, style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[0].desc}}
           .upload_file
             p(v-if="order.deliver_works[0] && !order.modify_works") 上传改稿所需附件
             .file_name(v-if="order.deliver_works[0] && !order.modify_works") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
@@ -64,7 +64,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
         hr(v-if="order.deliver_works[1].file_path")
         div
           textarea.revise(v-if="!order.modify_works[1]",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
-          div(v-else, style="height:150px;border:1px solid #000;") {{order.modify_works[1].desc}}
+          div(v-else, style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[1].desc}}
           .upload_file
             p(v-if="!order.modify_works[1]") 上传改稿所需附件
             .file_name(v-if="!order.modify_works[1]") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
@@ -294,7 +294,7 @@ export default {
                 message:evaluateVal
               }
             }).done(function(){
-              alert('评价完成！')
+              window.locaiton.reload()
             })
           })
         },

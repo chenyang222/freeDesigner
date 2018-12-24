@@ -42,8 +42,8 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         hr
         .asd(v-if="order.modify_works[0]")
           h3 雇主发起了改稿，请您及时修改并提交文件
-          p {{order.modify_works[0].desc}}
-          .upload_file
+          p(style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[0].desc}}
+          .upload_file(v-if="order.modify_works[0].filename")
             .file_name {{order.modify_works[0].filename}}
             a.uoloadbtn(:href="order.modify_works[0].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
@@ -68,8 +68,9 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         hr
         .asd(v-if="order.modify_works[1]")
           h3 雇主发起了改稿，请您及时修改并提交文件
+          p(style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[1].desc}}
           p {{order.modify_works[1].desc}}
-          .upload_file
+          .upload_file(v-if="order.modify_works[1].filename")
             .file_name {{order.modify_works[1].filename}}
             a.uoloadbtn(:href="order.modify_works[1].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
@@ -94,8 +95,8 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         hr
         .asd(v-if="order.modify_works[2]")
           h3 雇主发起了改稿，请您及时修改并提交文件
-          p {{order.modify_works[2].desc}}
-          .upload_file
+          p(style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[2].desc}}
+          .upload_file(v-if="order.modify_works[2].filename")
             .file_name {{order.modify_works[2].filename}}
             a.uoloadbtn(:href="order.modify_works[2].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您

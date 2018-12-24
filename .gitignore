@@ -4,3 +4,5 @@ components/*
 output
 _dev
 output.zip
+dist/
+dist.zip

@@ -1,6 +1,6 @@
 <template>
   <div class="banner" __vuec__>
-    <img src="./banner.png" alt="banner">
+    <img src="./banner.jpg" alt="banner">
     <div v-if="!data.id" class="info">
       <p>现在就与  28593  万名工程师成为挚友 </p>
       <a :href="REGISTER">加入我们</a>
@@ -54,6 +54,7 @@ export default {
   overflow: hidden;
   img{
     width: 100%;
+    height: 400px;
   }
   .info {
     display: flex;

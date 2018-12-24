@@ -7,7 +7,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
     ul.works.mt-30
       li(v-for="work in similarWorks")
         a(:href="work[1]", target="_new;")
-          img(:src="work[1]")
+          img(:src="work[1]", :alt="work[0]")
   div(slot="footer")
 order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisible", @closeUserInfo="closeUserInfo")
 .wrap(__vuec__)
@@ -144,7 +144,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
                   .exp  {{record.user.career}}年工作经验
                 .skill
                   | {{record.user.role}}
-        td(style="font-size:12px;color:#919191;") {{record.desc || '未填写'}}
+        td(style="font-size:12px;color:#919191;line-height:25px;") {{ record.desc.length > 60 ? record.desc.substring(0, 60) + '...' : record.desc || '未填写'}}
         td
           .btn.w-100(style="margin:auto")
             a(@click="showUserInfo(record)") 查看详情

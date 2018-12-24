@@ -13,8 +13,8 @@ dheader
         li.upload(@click="uploadWork") +
       upload(type="work", maxsize="2*1024")
       .label 竞标描述
-      textarea.desc(placeholder="芍药居哈哈，我就在这里住哦，给我下单， 方便啊......", v-model="desc")
-      .fixDesc(@click="fixDesc") 修改
+      textarea.desc(placeholder="请在此处描述您的竞标优势", v-model="desc")
+      //- .fixDesc(@click="fixDesc") 修改
       div
       .clear
       .label 问题解答（雇主上传了 {{questionList.length}} 个问题）

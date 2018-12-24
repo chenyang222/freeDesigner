@@ -144,6 +144,7 @@ export default {
           margin-left: 50px;
           &.active {
             a {
+              color: #4495f7;
               opacity: 1;
             }
           }

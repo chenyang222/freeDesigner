@@ -54,7 +54,7 @@ export default {
     }
     a {
       padding: 20px;
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid #919191;
       text-align: center;
       width: 120px;
       color: #919191;

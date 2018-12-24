@@ -63,7 +63,7 @@ dheader
       ul.other.container
         li.desc-wrap
           .label 其它要求及项目描述：
-          textarea.desc(v-model="desc", placeholder="填写相关说明及要求，如：要求接单者展示同类案例，等")
+          textarea.desc(v-model="desc", placeholder="填写相关说明及要求，如：要求接单者展示同类案例等")
         li
           .label 项目相关资料
           .upload-wrap
@@ -426,10 +426,10 @@ export default {
       color: #959595;
     }
 
-    &:nth-child(3n+0){
+    &:nth-child(6n+0){
       margin-right: 0;
     }
-    &:nth-child(n+4){
+    &:nth-child(n+7){
       margin-top: 10px;
     }
     &.btna {

@@ -9,6 +9,8 @@
 4. npm install
 5. fis3 release -d ./output/ -wL 
 
+fis3 release prod -d ./dist/
+
 
 ### develop deps fis plugins
 fis3-parser-vue-component

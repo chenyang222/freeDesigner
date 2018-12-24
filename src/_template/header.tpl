@@ -9,7 +9,8 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link rel="shortcut icon" href="" type="image/x-icon">
-    <script src="/src/assets/js/mod.js"></script><!--ignore-->
+    <script src="/src/assets/js/mod.js"></script>
+    <script src="/src/assets/css/jqueryui/jquery.ui.css"></script>
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
   </head>
   <body>

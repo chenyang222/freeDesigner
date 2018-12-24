@@ -109,9 +109,9 @@ dheader
 <script>
 import {Vue, dheader} from 'src/assets/js/page';
 import api from 'src/assets/js/api';
-import 'third_party/jqueryui/jquery.ui';
-import upload from 'src/public/upload/upload';
 import $ from 'jquery';
+import '/third_party/jqueryui/jquery.ui';
+import upload from 'src/public/upload/upload';
 import utils from 'src/assets/js/utils';
 import mixins from 'src/page/mixins';
 import loading from 'src/public/loading/loading'
@@ -383,7 +383,7 @@ export default {
             extra_resource: '',
             location: '',
             extra_resource_name: '未上传文件',
-            system_cost: 200,
+            system_cost: 0,
             total_cost: 0, // 项目总价， 预算
             fee: 0,
             violate_cost: '', // 违约金
@@ -403,7 +403,6 @@ export default {
 </script>
 <style lang="less">
 @import 'src/assets/css/variables';
-@import '/src/assets/css/jqueryui/jquery.ui.css';
 
 .wrap[__vuec__] {
   .img-box {

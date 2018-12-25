@@ -18,13 +18,19 @@ dheader
       .label.fl 承接业务：
       ul.bfc
         li(v-for="r in roles") {{r}}
-  .bfc.radar.fr.mr-30
+  .bfc.radar.fr
     radar(:data="data")
-gallery(:uid="ids.uid", :type="public")
+.tab
+  span(:class="tabActive == 1 ? 'active' : ''", @click='selectTab(1)') 工作历史和反馈
+  span(:class="tabActive == 2 ? 'active' : ''", @click='selectTab(2)') 作品展示
+his-Back(:uid="ids.uid", v-if="tabActive == 1")
+.gallery(v-if="tabActive == 2")
+  gallery(:uid="ids.uid", :type="public")
 </template>
 <script>
 import {Vue, router, dheader} from '/src/assets/js/page';
 import gallery from '/src/page/components/user-gallery/gallery';
+import hisBack from '/src/page/user/hisBack';
 import utils from '/src/assets/js/utils';
 import api from '/src/assets/js/api';
 import radar from '/src/public/radar/radar';
@@ -33,7 +39,8 @@ export default {
     components: {
         dheader,
         gallery,
-        radar
+        radar,
+        hisBack
     },
     watch: {
         roles(val) {
@@ -57,6 +64,9 @@ export default {
             return api.get({
                 url: constant.API.USER + this.ids.uid,
             });
+        },
+        selectTab (idx) {
+          this.tabActive = idx;
         }
     },
     data () {
@@ -73,6 +83,7 @@ export default {
             info: {},
             data: {},
             success: false,
+            tabActive: 1
         };
     }
 };
@@ -140,9 +151,31 @@ export default {
   }
   .radar {
     position: relative;
-    top: -20px;
+    top: -260px;
     width: 420px;
     height: 320px - @profilePaddingTop;
   }
+}
+.tab{
+  width: 100%;
+  min-width: 1080px;
+  margin: 0 auto;
+  height: 60px;
+  border-bottom: 1px solid #999;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+}
+.tab span{
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+}
+.tab .active{
+  color: #00b9ff;
+}
+.gallery{
+  margin-top: 60px;
 }
 </style>

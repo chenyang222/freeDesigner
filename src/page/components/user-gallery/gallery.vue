@@ -1,12 +1,10 @@
 <template lang="jade">
 div.sort
-  .container
-    div.condition
-      select.fl(@change="changeSort")
+    select.fl(@change="changeSort")
         option(value="created_on", class="fl ml-20") 创建时间
         option(value="view_count") 热度
         option(value="like_count") 点赞
-      select.fl.ml-20(@change="searchCate")
+    select.fl.ml-20(@change="searchCate")
         option(value="All") 全部
         option(v-for="opt in cates", value="{{opt}}") {{opt}}
 .wrap-inner(__vuec__)
@@ -201,15 +199,21 @@ export default {
   min-width: 1280px;
 }
 .sort {
-  padding-top: 10px;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 50px ;
   line-height: 50px;
+  background: #ffffff;
 }
 .condition {
   width: 400px;
   margin: auto;
 }
 .wrap-inner[__vuec__] {
+  margin-top: 30px;
   padding: 30px 30px 40px 30px;
   border-top: 1px solid #e5e5e5;
   background: #f4f4f4;
@@ -218,6 +222,7 @@ export default {
     display: block;
     margin: 0 auto;
     position: relative;
+    margin-top: 50px;
     padding: 0;
     ol.gallerys {
         max-width: 2000px;

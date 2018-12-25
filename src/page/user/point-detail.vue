@@ -4,7 +4,7 @@ dheader
   tab
   .bfc.detail.mt-20
     .tab-switch
-        .a(@click="tabActive = 'record'", :class="{active:tabActive === 'record'}") 积分记录
+        .a(@click="tabActive = 'record'", :class="{active:tabActive === 'record'}") 交易记录
         .b(@click="tabActive = 'putForward'", :class="{active:tabActive === 'putForward'}") 积分提现
     .tab-main(v-if="tabActive === 'record'")
         .item
@@ -14,8 +14,12 @@ dheader
         .item(v-for="(index, item) in pointsList")
             .num1(v-if='item.points_type == 1') + {{item.points}}
             .num1(v-if='item.points_type == 2') + {{item.points}}
+                .pro ?
+                    .showWarn 平台已收取您此订单20%的管理费
             .num1(v-if='item.points_type == 3') - {{item.points}}
             .num1(v-if='item.points_type == 4') + {{item.points}}
+                .pro ?
+                    .showWarn 平台已收取您此订单20%的管理费
             .num1(v-if='item.points_type == 5') - {{item.points}}
             .num2 {{item.created_on}}
             .num3(v-if='item.points_type == 1') 积分充值
@@ -28,7 +32,7 @@ dheader
             p(style="color:#000;font-weight:bold;") 可提现积分
                 span(style="color:#4195f7;") {{userInfo.available_cash_points}}，折换成人民币¥
                 span(style="color:#ff0000;"){{userInfo.available_cash_points}}
-            p (1积分=1人民币，满100积分可提现）
+            p(style="margin-top:-20px;font-size:16px") (1积分=1人民币，满100积分可提现）
         .form
             .form-item
                 input.input(v-model='pointsFormData.points', placeholder='请输入提现金额￥（提现金额必须是10的倍数）')
@@ -45,7 +49,7 @@ dheader
             .form-item
                 input.input(type='number', v-model='pointsFormData.mobile', placeholder='请输入手机号码')
                 br
-            .submit(@click='pointsSubmit') 提交申请
+            .submit(@click='pointsSubmit') 确定
         .footer
             p
                 | 提现说明：
@@ -109,6 +113,7 @@ export default {
 }
 @profilePaddingTop: 40px;
 .profile[__vuec__] {
+  font-size: 18px;
   padding-left: 30px;
   padding-top: @profilePaddingTop;
   height: 348px;
@@ -180,11 +185,11 @@ export default {
     color: #fff;
     background-color: #00a0e9;
     text-align: center;
-    width: 375px;
+    width: 175px;
     height: 52px;
     line-height: 52px;
     border-radius: 4PX;
-    margin: 70px auto 40px;
+    margin: 30px auto 40px;
   }
   .footer {
     font-size: 16px;
@@ -211,6 +216,35 @@ export default {
               }
               
         }
+    }
+    .pro{
+        width: 15px;
+        height: 15px;
+        line-height: 15px;
+        font-size: 14px;
+        display: inline-block;
+        background-color: red;
+        border-radius: 50%;
+        color: #ffffff;
+        margin-left: 10px;
+        position: relative;
+        .showWarn{
+            width: 220px;
+            height: 25px;
+            line-height: 24px;
+            border: 1px solid #919191;
+            border-radius: 5px;
+            position: absolute;
+            color: #4495f7;
+            top: -30px;
+            left: 25px;
+            display: none;
+        }
+    }
+    .pro:hover{
+        .showWarn{
+            display: block;
+        }        
     }
 }
 </style>

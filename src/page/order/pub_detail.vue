@@ -295,7 +295,7 @@ export default {
                 message:evaluateVal
               }
             }).done(function(){
-              window.locaiton.reload()
+              window.location.reload()
             })
           })
         },

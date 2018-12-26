@@ -12,7 +12,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
 order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisible", @closeUserInfo="closeUserInfo")
 .wrap(__vuec__)
   orderdetail(:otitle="otitle", :order="order")
-  .description(v-if="isConfirmed")
+  .description(v-if="isConfirmed || order.status == 0")
     .l
       .avatar
         img(:src="order.applier.avatar")
@@ -97,8 +97,9 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
               upload(type="resource")
           .sendRevise(@click="handleRevise" v-if="!order.modify_works[2]") 发起改稿
         hr(v-if="order.deliver_works[2].file_path")
-      textarea.revise(placeholder="请在此处编辑对工作者的评价", v-model="evaluateVal", v-if="order.deliver_works[0].file_path")
-      .sendRevise(@click="submit", v-if="order.deliver_works[0].file_path") 确定完成
+      div(v-if="order.status != 0")
+        textarea.revise(placeholder="请在此处编辑对工作者的评价", v-model="evaluateVal", v-if="order.deliver_works[0].file_path")
+        .sendRevise(@click="submit", v-if="order.deliver_works[0].file_path") 确定完成
   .jobs-container.clear(v-if="false")
     upload(type="*", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container

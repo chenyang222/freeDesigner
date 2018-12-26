@@ -11,7 +11,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
   div(slot="footer")
 .wrap(__vuec__)
   orderdetail(:otitle="otitle", :order="order")
-  .description(v-if="showConfirmed")
+  .description(v-if="showConfirmed || order.status == 0")
     .l
       .avatar
         img(:src="order.user.avatar")

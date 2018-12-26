@@ -32,7 +32,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
           .upload_file
             .file_name(v-if="order.deliver_works[0]") {{order.deliver_works[0].filename}}
             .file_name(v-else) 工作者还未上传项目文件
-            a.uoloadbtn(:href="order.deliver_works[0].file_path", target="_new;", v-if="order.deliver_works[0].file_path") 下载附件
+            a.uoloadbtn(:href="order.deliver_works[0].file_path", target="_new;", v-if="order.status != 0 && order.deliver_works[0].file_path") 下载附件
           //- div(v-if="order.deliver_works[0]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[0].filename}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 
         hr(v-if="order.deliver_works[0].file_path")
@@ -45,9 +45,9 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
             p(v-if="order.deliver_works[0] && !order.modify_works") 上传改稿所需附件
             .file_name(v-if="order.deliver_works[0] && !order.modify_works") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
             .file_name(v-else) {{order.modify_works[0].filename || '雇主没有添加附件'}}
-            .uoloadbtn(@click='uploadZip', v-if="order.deliver_works[0] && !order.modify_works") 上传压缩附件
+            .uoloadbtn(@click='uploadZip', v-if="order.status != 0 && order.deliver_works[0] && !order.modify_works") 上传压缩附件
               upload(type="resource")
-          .sendRevise(@click="handleRevise" v-if="order.deliver_works[0] && !order.modify_works") 发起改稿
+          .sendRevise(@click="handleRevise" v-if="order.status != 0 && order.deliver_works[0] && !order.modify_works") 发起改稿
         hr(v-if="order.deliver_works[0].file_path")
       div(v-if="order.deliver_works[1]")
         .works_project_files
@@ -56,7 +56,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
           .upload_file
             .file_name(v-if="order.deliver_works[1]") {{order.deliver_works[1].filename}}
             .file_name(v-else) 工作者还未上传项目文件
-            a.uoloadbtn(:href="order.deliver_works[1].file_path", target="_new;") 下载附件
+            a.uoloadbtn(:href="order.deliver_works[1].file_path", target="_new;", v-if="order.status != 0") 下载附件
           //- div(v-if="order.deliver_works[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[1].filename}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
         hr(v-if="order.deliver_works[1].file_path")
@@ -69,9 +69,9 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
             p(v-if="!order.modify_works[1]") 上传改稿所需附件
             .file_name(v-if="!order.modify_works[1]") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
             .file_name(v-else) {{order.modify_works[1].filename || '雇主没有添加附件'}}
-            .uoloadbtn(@click='uploadZip', v-if="!order.modify_works[1]") 上传压缩附件
+            .uoloadbtn(@click='uploadZip', v-if="order.status != 0 && !order.modify_works[1]") 上传压缩附件
               upload(type="resource")
-          .sendRevise(@click="handleRevise" v-if="!order.modify_works[1]") 发起改稿
+          .sendRevise(@click="handleRevise" v-if="order.status != 0 && !order.modify_works[1]") 发起改稿
         hr(v-if="order.deliver_works[1].file_path")
       div(v-if="order.deliver_works[2]")
         .works_project_files
@@ -80,7 +80,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
           .upload_file
             .file_name(v-if="order.deliver_works[2]") {{order.deliver_works[2].filename}}
             .file_name(v-else) 工作者还未上传项目文件
-            a.uoloadbtn(:href="order.deliver_works[2].file_path", target="_new;") 下载附件
+            a.uoloadbtn(:href="order.deliver_works[2].file_path", target="_new;", v-if="order.status != 0") 下载附件
           //- div(v-if="order.deliver_works[2]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[2].filename}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
         hr(v-if="order.deliver_works[2].file_path")
@@ -693,6 +693,7 @@ export default {
         }
       }
       .info {
+        width: 200px;
         margin-left: 25px;
         >div {
           display: flex;

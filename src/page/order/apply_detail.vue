@@ -33,8 +33,8 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
           .file_name(v-else) 请上传ZIP等压缩包文件
           .uoloadbtn(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[0]") 上传附件
             upload(type="deliveries")
-        p 注：请务必上传与雇主要求相应的项目文件
-        p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
+        p(v-if="order.status != 0") 注：请务必上传与雇主要求相应的项目文件
+        p(v-if="order.status != 0")（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
         .sendRevise(@click="submit('one')", style="display:inline-block;", v-if="!order.deliver_works[0] && curFail[1]") 提交文件
         &nbsp;
         //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[0]") 上传附件
@@ -48,8 +48,8 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
             a.uoloadbtn(:href="order.modify_works[0].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
-      .first(v-if="order.modify_works[0]")
-        .works_project_files
+      .first(v-if="order.status != 0 ? order.modify_works[0] : order.deliver_works[1]")
+        .works_project_files()
           h3 请上传完整的项目文件
             span 【交付稿件为一改】
           .upload_file
@@ -59,8 +59,8 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
               upload(type="deliveries")
           //- div(v-if="order.deliver_works[1] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[1] ? order.deliver_works[1].filename : curFail[0]}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
-        p 注：请务必上传与雇主要求相应的项目文件
-        p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
+        p(v-if="order.status != 0") 注：请务必上传与雇主要求相应的项目文件
+        p(v-if="order.status != 0")（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
         .sendRevise(@click="submit('two')", style="display:inline-block;", v-if="!order.deliver_works[1] && curFail[1]") 提交文件
         &nbsp;
         //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[1]") 上传附件
@@ -75,7 +75,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
             a.uoloadbtn(:href="order.modify_works[1].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
-      .first(v-if="order.modify_works[1]")
+      .first(v-if="order.status != ? order.modify_works[1] : order.deliver_works[2]")
         .works_project_files
           h3 请上传完整的项目文件
             span 【交付稿件为二改】
@@ -86,8 +86,8 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
               upload(type="deliveries")
           //- div(v-if="order.deliver_works[2] || curFail[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[2] ? order.deliver_works[2].filename : curFail[0]}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 请上传项目文件
-        p 注：请务必上传与雇主要求相应的项目文件
-        p（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
+        p(v-if="order.status != 0") 注：请务必上传与雇主要求相应的项目文件
+        p(v-if="order.status != 0")（雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您）
         .sendRevise(@click="submit('three')", style="display:inline-block;", v-if="!order.deliver_works[2] && curFail[1]") 提交文件
         &nbsp;
         //- .sendRevise(@click='uploadWork("one")', style="display:inline-block;", v-if="!order.deliver_works[2]") 上传附件
@@ -101,6 +101,9 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
             a.uoloadbtn(:href="order.modify_works[2].file_path", target="_new;") 下载附件
         .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
+      p(v-if="order.status == 0", style="display:flex;align-items:center;color:#4195f7;font-size:16px;") 
+        span(style="padding-right:10px;") 恭喜您已完成此订单，佣金已转入您的积分账户
+        img(src="./images/hua.png")
   .jobs-container.clear(v-if="false")
     upload(type="deliveries", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container
@@ -173,11 +176,11 @@ export default {
             if (status > CONFIRMED) {
                 title += '未确认订单';
             }
-            else if (status <= CONFIRMED) {
-                title += '已确认订单';
-            }
             else if (status === 0) {
                 title = '已完成订单';
+            }
+            else if (status <= CONFIRMED) {
+                title += '已确认订单';
             }
             return title;
         },

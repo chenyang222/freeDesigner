@@ -2,7 +2,7 @@
   <div class="banner" __vuec__>
     <img src="./banner.jpg" alt="banner">
     <div v-if="!data.id" class="info">
-      <p>现在就与  28593  万名工程师成为挚友 </p>
+      <p>现在就与  28593  名工程师成为挚友 </p>
       <a :href="REGISTER">加入我们</a>
     </div>
   </div>
@@ -49,12 +49,15 @@ export default {
 <style lang="less">
 .banner[__vuec__]{
   width: 100%;
-  height: 400px;
+  min-width: 1200px;
+  // height: 400px;
   position: relative;
   overflow: hidden;
+  // background: url('./banner.jpg') no-repeat center center;
+  // background-size: 100%;
   img{
     width: 100%;
-    height: 400px;
+    // height: 400px;
   }
   .info {
     display: flex;

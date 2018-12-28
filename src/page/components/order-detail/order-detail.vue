@@ -18,7 +18,7 @@
         span 建筑面积 {{order.dynamic_info.area}}平米
         span.ml-30 {{order.dynamic_info.style}}风格
         span.ml-30 {{order.dynamic_info.is_face2face | f2f}}
-        span.ml-30 {{order.dynamic_info.is_mesure || mesure}}包括量房
+        span.ml-30 {{order.dynamic_info.is_mesure || mesure}}
       .time-desc
         span 创建时间：{{order.created_on | date 'yy-mm-dd'}}
         span.ml-30 交稿时间：{{order.deadline | date 'yy-mm-dd'}}

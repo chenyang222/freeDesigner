@@ -9,22 +9,22 @@ dheader
       li
         .label 选择项目分类：
         .fr
-          select(v-model="fcate", :disabled="this.id ? true :false")
+          select(v-model="fcate", :disabled="this.id ? true :false", @change="getSysCost")
             option(v-for="opt in fcates", :value="opt") {{opt}}
         .clear
         .desc 选择您的工程分类
       li
         .label 选择项目需求：
         .fr
-          select(v-model="scate", :disabled="this.id ? true :false")
+          select(v-model="scate", :disabled="this.id ? true :false", @change="getSysCost")
             option(v-for="(opt) in scates", :value="$key") {{$key}}
         .clear
         .desc 选择您要发包的项目类型
       li
         .label 任务量
         .fr
-          input(v-model="task_count", placeholder="请填写数量及选择单位", :disabled="this.id ? true :false")
-          select(v-model="task_unit", :disabled="this.id ? true :false")
+          input(v-model="task_count", placeholder="请填写数量及选择单位", :disabled="this.id ? true :false", @change="getSysCost")
+          select(v-model="task_unit", :disabled="this.id ? true :false", @change="getSysCost")
             option(v-for="opt in units", :value="opt") {{opt}}
         .clear
         .desc 填写您需求的数量【如1套、5张、1项】
@@ -47,10 +47,10 @@ dheader
               .label {{ item }}
               .clear
               div(v-if="$key === 'style'", @change="resetDynamicItems")
-                select(data-dynamic="{{$key}}", :disabled="this.id ? true :false")
+                select(data-dynamic="{{$key}}", :disabled="this.id ? true :false" , @change="getSysCost")
                   option(v-for="opt in styles", :value="opt", selected="$index === 0") {{opt}}
               div(v-else)
-                select(data-dynamic="{{$key}}", @change="resetDynamicItems", :disabled="this.id ? true :false")
+                select(data-dynamic="{{$key}}", @change="getSysCost", :disabled="this.id ? true :false")
                   option(value="false", selected) 否
                   option(value="true") 是
       li.clear
@@ -285,6 +285,9 @@ export default {
         getSysCost() {
             let self = this;
             let url = constant.API.SUGGEST_PRICE;
+            if (this.formData.task_count == '' || !this.formData.dynamic_info.area) {
+              return
+            }
             api.post({
                 url,
                 data: this.formData
@@ -357,7 +360,7 @@ export default {
             });
         },
         resetDynamicItems() {
-            this.setDynamicItems();
+          this.setDynamicItems();
         }
     },
     data() {

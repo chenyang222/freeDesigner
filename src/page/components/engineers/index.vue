@@ -45,10 +45,13 @@ export default {
         getRandomEnginerrsList () {
             let that = this;
             api.get({
-                url: constant.API.USER + '?is_recommend=True'
+                url: constant.API.USER + '?is_recommend=True',
+                data: {
+                    per_page: 100
+                }
             }).done(function () {
                 if (this.data.length > 8) {
-                    let list = that.getRandomArrayElements(this.data, 8);
+                    let list = that.getRandomArrayElements(this.data, 14);
                     for (let i = 0;i < list.length; i++) {
                         list[i].roleList = list[i].role.split(',').slice(0,2)
                     }

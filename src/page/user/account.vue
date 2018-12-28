@@ -144,6 +144,9 @@ export default {
   height: 348px;
   background: url('./bgline.png') repeat-x;
   color: #999;
+  #upload{
+    display: none;
+  }
   .detail {
     padding-left: 60px;
     padding-right: 60px;

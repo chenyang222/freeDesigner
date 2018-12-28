@@ -189,7 +189,8 @@ export default {
             let that = this;
             const sendValueUrl = '/api/gallery/' + this.detail.id + '/comment/'; // 发送评论
             const userid = localStorage.getItem("temp_user_id");
-            if (!userid) {
+            if (userid == 'undefined') {
+                window.location.href = "/login/login.html";
                 return
             }
             const dataFrom = {

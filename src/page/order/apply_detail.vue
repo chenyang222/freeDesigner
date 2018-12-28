@@ -46,7 +46,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
           .upload_file(v-if="order.modify_works[0].filename")
             .file_name {{order.modify_works[0].filename}}
             a.uoloadbtn(:href="order.modify_works[0].file_path", target="_new;") 下载附件
-        .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
+        //- .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
       .first(v-if="order.status != 0 ? order.modify_works[0] : order.deliver_works[1]")
         .works_project_files()
@@ -73,7 +73,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
           .upload_file(v-if="order.modify_works[1].filename")
             .file_name {{order.modify_works[1].filename}}
             a.uoloadbtn(:href="order.modify_works[1].file_path", target="_new;") 下载附件
-        .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
+        //- .asd(v-if="!order.modify_works[1]") 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
       .first(v-if="order.status != ? order.modify_works[1] : order.deliver_works[2]")
         .works_project_files
@@ -99,7 +99,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
           .upload_file(v-if="order.modify_works[2].filename")
             .file_name {{order.modify_works[2].filename}}
             a.uoloadbtn(:href="order.modify_works[2].file_path", target="_new;") 下载附件
-        .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
+        //- .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
       p(v-if="order.status == 0", style="display:flex;align-items:center;color:#4195f7;font-size:16px;") 
         span(style="padding-right:10px;") 恭喜您已完成此订单，佣金已转入您的积分账户

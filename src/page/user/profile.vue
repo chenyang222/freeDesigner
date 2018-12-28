@@ -20,7 +20,7 @@ dheader
     input.name.mt-30(placeholder="从业年限", v-model="career")
     textarea.desc.mt-30(placeholder="您的简介", v-model="desc")
     .professional.mt-20
-      .title 请选择承接业务类型（请最多选择三个技能）
+      .title 请选择承接业务类型（请最多选择两个技能）
       ul.roles
         li(v-for="_role in allRoles",
         @click="selecteRole",
@@ -79,7 +79,7 @@ export default {
             let $el = $(el);
             let role = this.role.split(',');
             let $selectedRoles = $('.roles li.active');
-            if ($selectedRoles.length >= 3 && !$el.hasClass('active')) {
+            if ($selectedRoles.length >= 2 && !$el.hasClass('active')) {
                 return;
             }
             $el.toggleClass('active');
@@ -160,14 +160,12 @@ export default {
                 '平面规划',
                 '声学设计',
                 '灯光设计',
-                '施工工长',
 
                 '强电系统',
                 '弱电系统',
-                '水系统',
+                '园林设计',
                 '暖通系统',
-                '消防系统',
-                'PPT标书'
+                '消防系统'
             ],
             ids: {
               id: id,

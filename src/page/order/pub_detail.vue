@@ -39,11 +39,11 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
         p(v-if="order.status != 0 && order.deliver_works[0].file_path") 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
         hr(v-if="order.deliver_works[0].file_path")
         div(v-if="order.deliver_works[0]")
-          textarea.revise(v-if="order.deliver_works[0] && !order.modify_works",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
-          div(v-else, style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[0].desc}}
+          textarea.revise(v-if="order.deliver_works[0] && !order.modify_works && order.status != 0",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
+          div(v-if="order.deliver_works[0] && order.modify_works", style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[0].desc}}
           .upload_file
-            p(v-if="order.deliver_works[0] && !order.modify_works") 上传改稿所需附件
-            .file_name(v-if="order.deliver_works[0] && !order.modify_works") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
+            p(v-if="(order.deliver_works[0] && !order.modify_works && order.status != 0) || (order.modify_works && order.status == 0)") 上传改稿所需附件
+            .file_name(v-if="(order.deliver_works[0] && !order.modify_works && order.status != 0) || (order.modify_works && order.status == 0 && reviseFile[0])") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
             .file_name(v-if="order.deliver_works[0] && order.modify_works[0].filename") {{order.modify_works[0].filename || '雇主没有添加附件'}}
             .uoloadbtn(@click='uploadZip', v-if="order.status != 0 && order.deliver_works[0] && !order.modify_works") 上传压缩附件
               upload(type="resource")
@@ -55,7 +55,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
             span 【交付稿件为一改】
           .upload_file
             .file_name(v-if="order.deliver_works[1]") {{order.deliver_works[1].filename}}
-            .file_name(v-else) 工作者还未上传项目文件
+            .file_name(v-if="!order.deliver_works[1]") 工作者还未上传项目文件
             a.uoloadbtn(:href="order.deliver_works[1].file_path", target="_new;") 下载附件
           //- div(v-if="order.deliver_works[1]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[1].filename}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
@@ -63,11 +63,11 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
         p(v-if="order.status != 0 && order.deliver_works[1].file_path") 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
         hr(v-if="order.deliver_works[1].file_path")
         div
-          textarea.revise(v-if="!order.modify_works[1]",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
-          div(v-else, style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[1].desc}}
+          textarea.revise(v-if="!order.modify_works[1] && order.status != 0",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
+          div(v-if="order.modify_works[1]", style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[1].desc}}
           .upload_file
-            p(v-if="!order.modify_works[1]") 上传改稿所需附件
-            .file_name(v-if="!order.modify_works[1]") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
+            p(v-if="(!order.modify_works[1] && order.status != 0) || (order.modify_works[1] && order.status == 0)") 上传改稿所需附件
+            .file_name(v-if="(!order.modify_works[1] && order.status != 0) || (order.modify_works[1] && order.status == 0) && reviseFile[0]") {{reviseFile[0] || '请上传ZIP等压缩包文件'}}
             .file_name(v-if="order.modify_works[1].filename") {{order.modify_works[1].filename || '雇主没有添加附件'}}
             .uoloadbtn(@click='uploadZip', v-if="order.status != 0 && !order.modify_works[1]") 上传压缩附件
               upload(type="resource")
@@ -79,7 +79,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
             span 【交付稿件为二改】
           .upload_file
             .file_name(v-if="order.deliver_works[2]") {{order.deliver_works[2].filename}}
-            .file_name(v-else) 工作者还未上传项目文件
+            .file_name(v-if="!order.deliver_works[2]") 工作者还未上传项目文件
             a.uoloadbtn(:href="order.deliver_works[2].file_path", target="_new;", v-if="order.status != 0") 下载附件
           //- div(v-if="order.deliver_works[2]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[2].filename}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
@@ -156,7 +156,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
             span 共{{record.works.length}}图片
         td.challenge
           {{record.apply_cost / 100}}积分
-    div(v-else, style="height:100px;text-align: center;line-height: 100px;") 暂无接单人
+    div(v-if="order.apply_records.length == 0 && order.status == 90", style="height:100px;text-align: center;line-height: 100px;") 暂无接单人
 dfooter
 </template>
 <script>
@@ -190,6 +190,7 @@ export default {
         let self = this;
         this.fetch().done(function() {
             this.order = this.data;
+            console.info(this.order)
             resolve(this);
             // self.fetchLastComment().done(function () {
             //     this.last_comment = this.data[0];
@@ -240,14 +241,12 @@ export default {
             let status = this.order.status;
             let CONFIRMED = constant.ORDER.CONFIRMED;
             let title = '发单管理-';
-            if (status > CONFIRMED) {
+            if (status === 0) {
+              title = '已完成订单';
+            } else if (status > CONFIRMED) {
                 title += '未确认订单';
-            }
-            else if (status <= CONFIRMED) {
+            } else if (status <= CONFIRMED) {
                 title += '已确认订单';
-            }
-            else if (status === 0) {
-                title = '已完成订单';
             }
             return title;
         },

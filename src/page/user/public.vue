@@ -15,7 +15,7 @@ dheader
     .name.ml-30 {{user.name}}
     .slogon.ml-30 {{user.desc}}
     .business.mt-80.pl-30.pt-20
-      .label.fl 承接业务：
+      .label.fl 专业技能：
       ul.bfc
         li(v-for="r in roles") {{r}}
   .bfc.radar.fr

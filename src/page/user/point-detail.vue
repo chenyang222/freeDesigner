@@ -32,7 +32,7 @@ dheader
             p(style="color:#000;font-weight:bold;") 可提现积分
                 span(style="color:#4195f7;") {{userInfo.available_cash_points}}，折换成人民币¥
                 span(style="color:#ff0000;"){{userInfo.available_cash_points}}
-            p(style="margin-top:-20px;font-size:16px") (1积分=1人民币，满100积分可提现）
+            p(style="font-size:16px") (1积分=1人民币，满100积分可提现）
         .form
             .form-item
                 input.input(v-model='pointsFormData.points', placeholder='请输入提现金额￥（提现金额必须是10的倍数）')
@@ -77,14 +77,31 @@ export default {
         }).done(function(){
             this.pointsList = this.data
             this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            for (let i = 0; i < this.pointsList.length; i++) {
+                const time = new Date(this.pointsList[i].created_on).getTime() + 28800000;
+                const date = new Date(time);
+                const year = date.getFullYear();
+                const month = date.getMonth();
+                const day = date.getDate();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const second = date.getSeconds();
+                this.pointsList[i].created_on = year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second;
+            }
             resolve(this)
         })
     },
     data(){
         return {
-                  tabActive: 'record', // record 记录  putforward 提现
-                  pointsFormData:{},
-                  pointsList:[]
+            tabActive: 'record', // record 记录  putforward 提现
+            pointsFormData:{
+                points: '',
+                card_number: '',
+                card_name: '',
+                username: '',
+                mobile: ''
+            },
+            pointsList:[]
         }
     },
     ready(){
@@ -92,6 +109,26 @@ export default {
     },
     methods:{
         pointsSubmit(){
+            if (this.pointsFormData.points == '') {
+                alert('请输入提现金额！')
+                return
+            }
+            if (this.pointsFormData.card_number == '') {
+                alert('请输入银行卡账号！')
+                return
+            }
+            if (this.pointsFormData.card_name == '') {
+                alert('请输入开户行信息！')
+                return
+            }
+            if (this.pointsFormData.username == '') {
+                alert('请输入您的真实姓名！')
+                return
+            }
+            if (this.pointsFormData.mobile == '') {
+                alert('请输入手机号码！')
+                return
+            }
             const self = this
             api.post({
                 url:`/api/withdraws/`,

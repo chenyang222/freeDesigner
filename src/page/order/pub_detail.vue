@@ -37,7 +37,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 
         hr(v-if="order.deliver_works[0].file_path")
         p(v-if="order.status != 0 && order.deliver_works[0].file_path") 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
-        hr(v-if="order.deliver_works[0].file_path")
+        hr(v-if="order.status != 0 && order.deliver_works[0].file_path")
         div(v-if="order.deliver_works[0]")
           textarea.revise(v-if="order.deliver_works[0] && !order.modify_works && order.status != 0",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
           div(v-if="order.deliver_works[0] && order.modify_works", style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[0].desc}}
@@ -48,7 +48,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
             .uoloadbtn(@click='uploadZip', v-if="order.status != 0 && order.deliver_works[0] && !order.modify_works") 上传压缩附件
               upload(type="resource")
           .sendRevise(@click="handleRevise" v-if="order.status != 0 && order.deliver_works[0] && !order.modify_works") 发起改稿
-        hr(v-if="order.deliver_works[0].file_path")
+        hr(v-if="order.status != 0 && order.deliver_works[0].file_path")
       div(v-if="order.deliver_works[1]")
         .works_project_files
           h3 工作者提交的项目文件
@@ -61,7 +61,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
         hr(v-if="order.deliver_works[1].file_path")
         p(v-if="order.status != 0 && order.deliver_works[1].file_path") 注：您可以选择确认并评价或者发起改稿（为保证双方权益，仅允许发起改稿2次）
-        hr(v-if="order.deliver_works[1].file_path")
+        hr(v-if="order.status != 0 && order.deliver_works[1].file_path")
         div
           textarea.revise(v-if="!order.modify_works[1] && order.status != 0",placeholder="请在此处编辑改稿内容", v-model="reviseVal")
           div(v-if="order.modify_works[1]", style="height:150px;border:1px solid #000;overflow-y: scroll;") {{order.modify_works[1].desc}}

@@ -58,6 +58,7 @@ export default {
   img{
     width: 100%;
     // height: 400px;
+    display: block;
   }
   .info {
     display: flex;

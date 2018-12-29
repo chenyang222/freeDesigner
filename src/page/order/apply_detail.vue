@@ -102,6 +102,7 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
         //- .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
       p(v-if="order.status == 0", style="display:flex;align-items:center;color:#4195f7;font-size:16px;") 
+        .eva(v-if="order.review_info") {{order.review_info}}
         span(style="padding-right:10px;") 恭喜您已完成此订单，佣金已转入您的积分账户
         img(src="./images/hua.png")
   .jobs-container.clear(v-if="false")
@@ -525,6 +526,15 @@ export default {
   }
   .jobs {
     padding-top: 30px;
+  }
+  .eva{
+    width: 100%;
+    height: 100px;
+    padding: 5px 10px;
+    color: #777777;
+    border: 1px solid #a0a0a0;
+    background-color: #f0f0f0;
+    font-size: 12px;
   }
 }
 </style>

@@ -100,7 +100,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
       div(v-if="order.status != 0")
         textarea.revise(placeholder="请在此处编辑对工作者的评价", v-model="evaluateVal", v-if="order.deliver_works[0].file_path")
         .sendRevise(@click="submit", v-if="order.deliver_works[0].file_path") 确定完成
-  
+      .eva(v-if="order.status == 0 && order.review_info") {{order.review_info}}
   .jobs-container.clear(v-if="false")
     upload(type="*", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container
@@ -773,6 +773,15 @@ export default {
   }
   .jobs {
     padding-top: 30px;
+  }
+  .eva{
+    width: 100%;
+    height: 100px;
+    padding: 5px 10px;
+    color: #777777;
+    border: 1px solid #a0a0a0;
+    background-color: #f0f0f0;
+    font-size: 12px;
   }
 }
 </style>

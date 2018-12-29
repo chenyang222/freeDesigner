@@ -80,7 +80,7 @@ order-user-info(:info="currentApplyRecords", :detail="order", v-if="userInfoVisi
           .upload_file
             .file_name(v-if="order.deliver_works[2]") {{order.deliver_works[2].filename}}
             .file_name(v-if="!order.deliver_works[2]") 工作者还未上传项目文件
-            a.uoloadbtn(:href="order.deliver_works[2].file_path", target="_new;", v-if="order.status != 0") 下载附件
+            a.uoloadbtn(:href="order.deliver_works[2].file_path", target="_new;", v-if="order.deliver_works[2]") 下载附件
           //- div(v-if="order.deliver_works[2]", style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") {{order.deliver_works[2].filename}}
           //- div(v-else, style="padding: 30px 0;border: 1px solid;width: 140px;text-align: center;") 工作者还未上传
         hr(v-if="order.deliver_works[2].file_path")

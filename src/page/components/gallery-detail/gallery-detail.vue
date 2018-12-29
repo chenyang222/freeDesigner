@@ -193,6 +193,10 @@ export default {
                 window.location.href = "/login/login.html";
                 return
             }
+            if (this.inputValue == '') {
+                alert('请输入评论内容!')
+                return
+            }
             const dataFrom = {
                 uid: userid,
                 content: this.inputValue,

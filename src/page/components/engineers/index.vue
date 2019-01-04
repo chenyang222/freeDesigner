@@ -195,7 +195,7 @@ export default {
             height: 246px;
             cursor: pointer;
             float: left;
-            margin: 0 25px 30px 25px;
+            margin: 0 25px 30px 30px;
             background-color: #ffffff;
             box-shadow:0 0 15px #cecece;
             .avatar {

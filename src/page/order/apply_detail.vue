@@ -101,10 +101,10 @@ modal(:show.sync="showModal", :css="{width: 640, height: 600}")
             a.uoloadbtn(:href="order.modify_works[2].file_path", target="_new;") 下载附件
         //- .asd(v-else) 注：雇主有2次发起改稿的选择，如需改稿我们将会第一时间告诉您
         hr
-      p(v-if="order.status == 0", style="display:flex;align-items:center;color:#4195f7;font-size:16px;") 
+      p(v-if="order.status === 0", style="display:flex;align-items:center;color:#4195f7;font-size:16px;") 
         .eva(v-if="order.review_info") {{order.review_info}}
-        span(style="padding-right:10px;") 恭喜您已完成此订单，佣金已转入您的积分账户
-        img(src="./images/hua.png")
+        span(style="padding-right:10px;",v-if="order.status === 0") 恭喜您已完成此订单，佣金已转入您的积分账户
+        img(src="./images/hua.png",v-if="order.status === 0")
   .jobs-container.clear(v-if="false")
     upload(type="deliveries", maxsize="2*1024", :subtype.sync="subtype")
     .jobs.container

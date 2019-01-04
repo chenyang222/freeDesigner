@@ -6,7 +6,7 @@
 
 <template lang="jade">
 dheader
-modal.addGallery(:show.sync="showModal", :css="{width: 640, height: 600}")
+modal.addGallery(:show.sync="showModal", :css="{width: 640, height: 440}")
   header(slot="header") 新建相册
   .body(slot="body", __vuec__)
     .mt-20
@@ -21,7 +21,7 @@ modal.addGallery(:show.sync="showModal", :css="{width: 640, height: 600}")
     .mt-30
       label 描述
       textarea.desc.ml-20(v-model="gdesc", placeholder="相册描述")
-    .mt-20
+    //- .mt-20
       label 设计理念
       textarea.desc.ml-20(v-model="concept", placeholder="请描述您作品的设计理念")
     //- .mt-20

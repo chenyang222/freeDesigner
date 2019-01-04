@@ -93,7 +93,7 @@ export default {
 <style lang="less">
 .slot-body[__vuec__] {
   height: 500px;
-  overflow: auto;
+  overflow-y: auto;
   .new {
     input {
       border: 0;

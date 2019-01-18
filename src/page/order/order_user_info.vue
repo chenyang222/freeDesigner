@@ -135,16 +135,17 @@ export default {
           price_type: 'all'
         }
       }).done(function(){
-        api.post({
-          url:'/api/pay/create_order/',
-          data:{
-            goods_id: self.info.id,
-            goods_type: 'pre_order',
-            price_type: 'all'
-          }
-        }).done(function(){
-          window.location.reload()
-        })
+        window.location.reload()
+        // api.post({
+        //   url:'/api/pay/create_order/',
+        //   data:{
+        //     goods_id: self.info.id,
+        //     goods_type: 'pre_order',
+        //     price_type: 'all'
+        //   }
+        // }).done(function(){
+        //   window.location.reload()
+        // })
       })
     }
   },

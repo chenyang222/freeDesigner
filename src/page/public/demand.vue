@@ -27,7 +27,7 @@ dheader
     a.link(href="{{applyRecordURL}}?oid={{order.id}}", target="_new", v-else)
     .clear
     .time
-      span.pub 创建时间：{{order.pub_time | date}}
+      span.pub 创建时间：{{order.created_on | date}}
       span.deadline.ml-40 交稿日期：{{order.deadline | date}}
       span.view.ml-40 浏览总计：{{order.view_count}}
       span.apply.ml-40 接单人数：{{order.apply_count}}
@@ -61,7 +61,9 @@ export default {
             let applys = this[0];
             let categorys = this[1];
             let obj = {};
-            console.log(applys.data)
+            for (let i = 0; i < applys.data.length; i++) {
+              const time = new Date(applys.data[i].created_on).getTime() + 28800000;
+            }
             obj.orders = applys.data;
             obj.fcates = categorys.data.fcates;
             obj.scates = categorys.data.scates;

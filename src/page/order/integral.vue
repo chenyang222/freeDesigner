@@ -2,7 +2,7 @@
     <div class="integral" __vuec__>
         <dheader></dheader>
         <div class="container">
-            <form class="cont layui-form"><h2 class="title">第一步：选择溜币充值套包</h2>
+            <form class="cont layui-form"><h2 class="title">第一步：选择积分充值套包</h2>
                 <ul class="package row clearfix">
                     <li v-for="(index,item) in list" @click="prestore_info(index,item.id)">
                         <label :class="{active:active_index === index}">
